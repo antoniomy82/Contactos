@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".DetalleFotoActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_detalle_foto"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="0dp"
+        android:background="@color/black"
+        app:collapseIcon="@android:drawable/ic_menu_close_clear_cancel"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:titleTextColor="@color/white" />
+
+
+    <ImageView
+        android:id="@+id/imDetalleFoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar_detalle_foto"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/ivFoto"
+        android:scaleType="matrix" />
+
+
+</RelativeLayout>

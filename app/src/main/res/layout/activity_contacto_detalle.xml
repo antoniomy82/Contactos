@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ContactoDetalle">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_contacto"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="4dp"
+
+        android:background="@color/white"
+        app:collapseIcon="?attr/homeAsUpIndicator"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:titleTextColor="@color/grey_800" />
+
+    <ScrollView
+        android:id="@+id/scroll_detalle_portrait"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_contacto"
+        android:layout_marginTop="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constrain00"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:textAlignment="center">
+
+                <TextView
+                    android:id="@+id/tvNombre_contacto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:text="@string/tvNombre_contacto"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivFoto_contacto" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivFoto_contacto"
+                    android:layout_width="409dp"
+                    android:layout_height="170dp"
+                    android:background="@color/white"
+                    android:contentDescription="@string/ivFoto"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toTopOf="@+id/tvNombre_contacto"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constrainl01"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/white"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                tools:ignore="MissingConstraints">
+
+                <ImageView
+                    android:id="@+id/imCumple"
+                    android:layout_width="30sp"
+                    android:layout_height="25sp"
+                    android:layout_marginStart="20dp"
+                    android:contentDescription="@string/cumpleaños"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/cumple" />
+
+                <TextView
+                    android:id="@+id/tvDetalle1"
+                    android:layout_width="85dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="32dp"
+                    android:gravity="center"
+                    android:text="@string/tvCumple"
+                    android:textSize="14sp"
+                    android:textStyle="italic"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imCumple"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.6" />
+
+                <TextView
+                    android:id="@+id/tvNacimiento_Contacto"
+                    android:layout_width="96dp"
+                    android:layout_height="19dp"
+                    android:layout_marginStart="4dp"
+                    android:gravity="center"
+                    android:text="@string/fecha_nacimiento"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tvDetalle1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvEdad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/tvEdad"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.092"
+                    app:layout_constraintStart_toEndOf="@+id/tvNacimiento_Contacto"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/white"
+                android:foregroundGravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/imTelefono"
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="20dp"
+                    android:contentDescription="@string/telefono"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.542"
+                    app:srcCompat="@drawable/telefono" />
+
+                <TextView
+                    android:id="@+id/tvTelefono1_sp"
+                    android:layout_width="112dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="55dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/tvTelefono1_sp"
+                    android:textAlignment="textEnd"
+                    android:textStyle="italic"
+                    app:layout_constraintStart_toEndOf="@+id/imTelefono"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTelefono1"
+                    android:layout_width="112dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/tvTelefono1"
+                    android:textAlignment="textStart"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvTelefono2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/tvTelefono1_sp"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTelefono2_sp"
+                    android:layout_width="112dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="55dp"
+                    android:text="@string/tvTelefono2_sp"
+                    android:textAlignment="textEnd"
+                    android:textStyle="italic"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imTelefono"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTelefono1_sp"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/tvTelefono2"
+                    android:layout_width="112dp"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginEnd="84dp"
+                    android:layout_marginStart="4dp"
+                    android:text="@string/tvTelefono2"
+                    android:textAlignment="textStart"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/tvTelefono2_sp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="30sp"
+                android:layout_marginTop="16dp"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/imEmail"
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="8dp"
+                    android:contentDescription="@string/todo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/email" />
+
+                <TextView
+                    android:id="@+id/tvEmail"
+                    android:layout_width="292dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="19dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/correo_electr_nico"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/imEmail"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="30sp"
+                android:layout_marginTop="16dp"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/imLocation"
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="20dp"
+                    android:contentDescription="@string/todo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/location" />
+
+                <TextView
+                    android:id="@+id/tvDireccion"
+                    android:layout_width="292dp"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginStart="19dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/edDireccion"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/imLocation"
+                    app:layout_constraintTop_toBottomOf="@+id/imLocation"
+                    app:layout_constraintVertical_bias="1.0" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="30sp"
+                android:layout_marginTop="16dp"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/imWeb"
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="20dp"
+                    android:contentDescription="@string/todo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/web" />
+
+                <TextView
+                    android:id="@+id/tvWeb"
+                    android:layout_width="292sp"
+                    android:layout_height="20sp"
+                    android:layout_marginEnd="49dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/web"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imWeb"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="30sp"
+                android:layout_marginTop="16dp"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/imSocial"
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="20dp"
+                    android:contentDescription="@string/imSocial"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_social" />
+
+                <TextView
+                    android:id="@+id/tvSocial"
+                    android:layout_width="292sp"
+                    android:layout_height="20sp"
+                    android:layout_marginEnd="49dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/edSocial"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imSocial"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout6"
+                android:layout_width="match_parent"
+                android:layout_height="30sp"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/white">
+
+                <ImageView
+                    android:id="@+id/imNota"
+                    android:layout_width="30sp"
+                    android:layout_height="25sp"
+                    android:layout_marginStart="20dp"
+                    android:contentDescription="@string/todo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/note" />
+
+                <TextView
+                    android:id="@+id/tvNotas"
+                    android:layout_width="292dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="49dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/edNotas"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imNota"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

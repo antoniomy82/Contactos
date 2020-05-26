@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ContactoDetalle">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_contacto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@color/white"
+        app:collapseIcon="?attr/homeAsUpIndicator"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:titleTextColor="@color/grey_800" />
+
+    <ScrollView
+        android:id="@+id/scroll_nuevo_portrait"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_contacto"
+        android:layout_marginTop="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivFoto_Contacto_Nuevo"
+                android:layout_width="128dp"
+                android:layout_height="110dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:contentDescription="@string/ivFoto_Persona"
+                android:src="@drawable/photo_add"
+                app:civ_border_color="#FFFFFF"
+                app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+            <EditText
+                android:id="@+id/edNombre_Contacto"
+                android:layout_width="277dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:autofillHints=""
+                android:hint="@string/introduzca_nombre"
+                android:inputType="textPersonName|text"
+                android:text=""
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/edApellidos_Contacto"
+                android:layout_width="277dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:autofillHints=""
+                android:hint="@string/introduzca_apellidos"
+                android:inputType="textPersonName|text"
+                android:text=""
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/edtelefono1"
+                android:layout_width="277dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:autofillHints=""
+                android:hint="@string/edtelefono1"
+                android:inputType="text|phone"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="14sp" />
+
+            <Spinner
+                android:id="@+id/sp_telefono1"
+                android:layout_width="126dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:background="@color/grey_300" />
+
+            <EditText
+                android:id="@+id/edtelefono2"
+                android:layout_width="277dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:autofillHints=""
+                android:hint="@string/edtelefono2"
+                android:inputType="text|phone"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="14sp" />
+
+            <Spinner
+                android:id="@+id/sp_telefono2"
+                android:layout_width="126dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:background="@color/grey_300" />
+
+            <EditText
+                android:id="@+id/edEmail"
+                android:layout_width="277dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:autofillHints=""
+                android:hint="@string/edEmail"
+                android:inputType="textEmailAddress"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/edDireccion"
+                android:layout_width="277dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:autofillHints=""
+                android:hint="@string/edDireccion"
+                android:inputType="text|textPostalAddress"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/imGPS"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:contentDescription="@string/tvGpsText"
+                app:srcCompat="@drawable/location" />
+
+            <TextView
+                android:id="@+id/tvGps"
+                android:layout_width="171dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="2dp"
+                android:text="@string/tvGpsText"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/edWeb"
+                android:layout_width="277dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:autofillHints=""
+                android:hint="@string/edWeb"
+                android:inputType="textWebEditText|text"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/edSocial"
+                android:layout_width="277dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="@string/edSocial"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvFechaNacimiento"
+                android:layout_width="144dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/tvFechaNacimiento"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/bNacimiento"
+                android:layout_width="37dp"
+                android:layout_height="31dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:background="@color/white"
+                android:drawableBottom="@drawable/calendar_30"
+                android:fontFamily="sans-serif-light"
+                android:onClick="setDate"
+                android:text="@string/bNacimiento"
+                android:textSize="12sp"
+                tools:ignore="OnClick" />
+
+            <EditText
+                android:id="@+id/edNotas"
+                android:layout_width="277dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                android:autofillHints=""
+                android:hint="@string/edNotas"
+                android:inputType="textPersonName|text"
+                android:text=""
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

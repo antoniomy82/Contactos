@@ -1,0 +1,38 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/white</item> <!-- Color de la status bar en mi app-->
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowLightStatusBar">true</item> <!-- Poner status bar a negro-->
+
+    </style>
+
+    <!-- ToolBar -->
+    <style name="ToolBarTheme.ToolBarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/blue_grey_700</item>
+        <item name="android:textColor">@color/blue_grey_900</item>
+        <item name="android:textColorPrimaryInverse">@color/blue_grey_900</item>
+
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="ToolbarSubtitleAppearance" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColorSecondary">@color/blue_grey_900
+        </item> <!--Color de letras de subtítulo-->
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+</resources>

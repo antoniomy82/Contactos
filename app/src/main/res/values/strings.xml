@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Contactos</string>
+
+    <string name="ivFoto">foto</string>
+    <string name="tvItemNombre">Nombre</string>
+    <string name="tvItemApellidos">Apellidos</string>
+    <string name="ivFoto_Persona">TODO</string>
+    <string name="iNuevo">icono_nuevo</string>
+    <string name="bItem">nuevo</string>
+    <string name="bBorrar">Borrar</string>
+    <string name="bEditar">Editar</string>
+    <string name="bGuardar">Guardar</string>
+    <string name="switchVista">Switch</string>
+    <string name="grid">Grid</string>
+    <string name="lista">lista</string>
+    <string name="introduzca_nombre">Nombre</string>
+    <string name="introduzca_apellidos">Apellidos</string>
+    <string name="fecha_nacimiento">Insertar fecha</string>
+    <string name="nacimiento">Fecha nacimiento</string>
+    <string name="tvItemNacimiento">Fecha nacimiento</string>
+    <string name="fbNuevo">Nuevo</string>
+    <string name="edtelefono1">Teléfono 1</string>
+    <string name="edtelefono2">Teléfono 2</string>
+    <string name="edEmail">Correo eletrónico</string>
+    <string name="edDireccion">Dirección</string>
+    <string name="edWeb">Sitio Web</string>
+    <string name="edNotas">Notas</string>
+    <string name="tvFechaNacimiento">Fecha nacimiento</string>
+    <string name="bNacimiento">Calendario</string>
+    <string name="tvNombre_contacto">Nombre y apellidos</string>
+    <string name="tvTelefono1_sp">Teléfono móvil</string>
+    <string name="tvTelefono1">632979879</string>
+    <string name="tvTelefono2">9154343957</string>
+    <string name="tvTelefono2_sp">Teléfono casa</string>
+    <string name="tvCumple">Cumpleaños:</string>
+    <string name="cumpleaños">Cumpleaños</string>
+    <string name="telefono">TODO</string>
+    <string name="web">Web</string>
+    <string name="correo_electr_nico">Correo electrónico</string>
+    <string name="todo">TODO</string>
+    <string name="tvEdad">30</string>
+    <string name="tvInicial">A</string>
+    <string name="tvGpsText">Obtener direccion usando GPS</string>
+    <string name="edSocial">Redes sociales(LI, FB, IG, TT...)</string>
+    <string name="imSocial">imSocial</string>
+    <string name="title_activity_detalle_foto">DetalleFotoActivity</string>
+</resources>
