@@ -60,6 +60,9 @@ class AdaptadorRecyclerView(var context: Context, listaItems: ArrayList<Contacto
         if (tipoVista == "lista") {
             miViewHolder.tvItemNombre.setText(contactos.nombre.toString() + " " + contactos.apellidos)
             miViewHolder.tvItemInicial.setText(contactos.nombre.get(0).toString()) //obtenemos la inicial
+             //Modificación 1 - commit 2
+            miViewHolder.itemView.setBackgroundColor(Color.parseColor("#D50000")) //"#e6e2d3"
+
         } else {
             miViewHolder.tvItemNombre.setText(contactos.nombre)
             miViewHolder.tvItemInicial.setText(contactos.nombre.get(0).toString()) //obtenemos la inicial
