@@ -10,9 +10,9 @@ class Contactos (foto: Bitmap, nombre: String, apellidos: String, nacimiento: St
     var apellidos: String = ""
     var nacimiento: String = ""
     var telefono1: String = ""
-    var spinner_tlf1: Int = 0
+    var spinnerTlf1: Int = 0
     var telefono2: String = ""
-    var spinner_tlf2: Int = 0
+    var spinnerTlf2: Int = 0
     var email: String = ""
     var direccion: String = ""
     var web: String = ""
@@ -25,9 +25,9 @@ class Contactos (foto: Bitmap, nombre: String, apellidos: String, nacimiento: St
         this.apellidos = apellidos
         this.nacimiento  = nacimiento
         this.telefono1 = telefono1
-        this.spinner_tlf1 = spinner_tlf1
+        this.spinnerTlf1 = spinner_tlf1
         this.telefono2 = telefono2
-        this.spinner_tlf2 = spinner_tlf2
+        this.spinnerTlf2 = spinner_tlf2
         this.email = email
         this.direccion = direccion
         this.web = web

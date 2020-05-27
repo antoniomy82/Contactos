@@ -21,9 +21,11 @@ class DetalleFotoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detalle_foto)
+
         miToolbar = findViewById(R.id.toolbar_detalle_foto)
-        miToolbar!!.setTitle("Detalle foto")
+        miToolbar!!.title = "Detalle foto"
         setSupportActionBar(miToolbar)
+
         var miFoto = MainActivity.getImagen(intent.getIntExtra("miIndice2", 0))
         imDetalleFoto = findViewById(R.id.imDetalleFoto)
         imDetalleFoto!!.setImageBitmap(miFoto)
@@ -32,14 +34,13 @@ class DetalleFotoActivity : AppCompatActivity() {
 
     private class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
         override fun onScale(detector: ScaleGestureDetector): Boolean {
-            scale = scale * detector.scaleFactor
-            scale = Math.max(0.1f, Math.min(scale, 5f))
+            scale *= detector.scaleFactor
+            scale = Math.max(0.1f, scale.coerceAtMost(5f))
             matrix.setScale(scale, scale)
-            imDetalleFoto?.setImageMatrix(matrix)
+            imDetalleFoto?.imageMatrix = matrix
             return true
         }
     }
-
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         SGD!!.onTouchEvent(event)

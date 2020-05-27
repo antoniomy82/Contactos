@@ -27,28 +27,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ContactoNuevo"
-                  android:configChanges="orientation|screenSize"
-                  android:parentActivityName=".MainActivity"> <!-- parentActivityName , defino cual es su actividad padre para volver con flecha toolbar -->
-        </activity>
-
-        <activity android:name=".DetalleFotoActivity"
-                  android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity android:name=".ContactoDetalle"
-                  android:parentActivityName=".MainActivity">
-                <intent-filter> <!-- intent para abrir correo -->
-                    <action android:name="android.intent.action.SENDTO" />
-
-                    <data android:scheme="mailto" />
-                 </intent-filter>
-        </activity>
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ContactoNuevo"
+            android:configChanges="orientation|screenSize"
+            android:parentActivityName=".MainActivity"> <!-- parentActivityName , defino cual es su actividad padre para volver con flecha toolbar -->
+        </activity>
+
+        <activity android:name=".DetalleFotoActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".ContactoDetalle"
+            android:parentActivityName=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SENDTO" /> <!-- intent filter para abrir correo -->
+
+                <data android:scheme="mailto" />
             </intent-filter>
         </activity>
     </application>

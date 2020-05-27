@@ -19,16 +19,16 @@ import java.util.*
 
 class ContactoDetalle : AppCompatActivity() {
 
-
-    private var ivFoto_Contacto: ImageView? = null
+    //Variables estilo camelCase
+    private var ivfotoContacto: ImageView? = null
     private var miFoto: Bitmap? = null
-    private var tvNombre_Contacto: TextView? = null
-    private var tvNacimiento_Contacto: TextView? = null
+    private var tvnombreContacto: TextView? = null
+    private var tvnacimientoContacto: TextView? = null
     private var tvEdad: TextView? = null
     private var tvTelefono1: TextView? = null
-    private var tvTelefono1_sp: TextView? = null
+    private var tvtelefono1Sp: TextView? = null
     private var tvTelefono2: TextView? = null
-    private var tvTelefono2_sp: TextView? = null
+    private var tvtelefono2Sp: TextView? = null
     private var tvEmail: TextView? = null
     private var tvDireccion: TextView? = null
     private var tvWeb: TextView? = null
@@ -37,23 +37,16 @@ class ContactoDetalle : AppCompatActivity() {
 
     private var misContactos: Contactos? = null
     private var miToolbar: Toolbar? = null
-    var posicion = 0
-    private val telefonos_lista = arrayOf(
-        "casa",
-        "trabajo",
-        "móvil",
-        "móvil trabajo",
-        "móvil 2",
-        "casa 2",
-        "otro"
-    ) //Spinner
 
-    private val testVacio = "" //util para comprobar si están vacíos los campos
+    private var posicion = 0
+    private var diaN :Int = 0 //Variables para cálculo de fecha
+    private var mesN:Int = 0
+    private var anioN:Int = 0
 
+    //UPPER_SNAKE_CASE (Constantes)
+    private val TELEFONOS_LISTA = arrayOf("casa", "trabajo", "móvil", "móvil trabajo", "móvil 2", "casa 2", "otro") //Spinner
+    private val TEST_VACIO: String = "" //util para comprobar si están vacíos los campos
 
-    var diaN :Int = 0
-    var mesN:Int = 0
-    var anioN:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,19 +54,21 @@ class ContactoDetalle : AppCompatActivity() {
 
         //Defino toolbar
         miToolbar = findViewById(R.id.toolbar_contacto)
-        miToolbar!!.setTitle("Detalle contacto")
+        miToolbar!!.title = "Detalle contacto"
         setSupportActionBar(miToolbar)
 
         //Activo la flecha Home de vuelta a atrás
         val miBar = supportActionBar
         miBar!!.setDisplayHomeAsUpEnabled(true)
-        ivFoto_Contacto = findViewById(R.id.ivFoto_contacto)
-        tvNombre_Contacto = findViewById(R.id.tvNombre_contacto)
+
+        //Enlazo las variables con sus etiquetas de su vista o XML
+        ivfotoContacto = findViewById(R.id.ivFoto_contacto)
+        tvnombreContacto = findViewById(R.id.tvNombre_contacto)
         tvTelefono1 = findViewById(R.id.tvTelefono1)
-        tvTelefono1_sp = findViewById(R.id.tvTelefono1_sp)
+        tvtelefono1Sp = findViewById(R.id.tvTelefono1_sp)
         tvTelefono2 = findViewById(R.id.tvTelefono2)
-        tvTelefono2_sp = findViewById(R.id.tvTelefono2_sp)
-        tvNacimiento_Contacto = findViewById(R.id.tvNacimiento_Contacto)
+        tvtelefono2Sp = findViewById(R.id.tvTelefono2_sp)
+        tvnacimientoContacto = findViewById(R.id.tvNacimiento_Contacto)
         tvEdad = findViewById(R.id.tvEdad)
         tvEmail = findViewById(R.id.tvEmail)
         tvDireccion = findViewById(R.id.tvDireccion)
@@ -82,20 +77,26 @@ class ContactoDetalle : AppCompatActivity() {
         tvNotas = findViewById(R.id.tvNotas)
         misContactos = MainActivity.getContacto(intent.getIntExtra("miIndice", 0))
         posicion = intent.getIntExtra("miIndice", 0)
-        Log.d("Posicion -->OnCreate", posicion.toString())
         miFoto = misContactos!!.foto
-        ivFoto_Contacto!!.setImageBitmap(misContactos!!.foto)
-        tvNombre_Contacto!!.setText(misContactos!!.nombre.toString() + " " + misContactos!!.apellidos)
-        tvNacimiento_Contacto!!.setText(misContactos!!.nacimiento)
-        tvTelefono1!!.setText(misContactos!!.telefono1)
-        tvTelefono1_sp!!.setText("Teléfono " + telefonos_lista[misContactos!!.spinner_tlf1] + ":")
-        tvTelefono2!!.setText(misContactos!!.telefono2)
-        tvTelefono2_sp!!.setText("Teléfono " + telefonos_lista[misContactos!!.spinner_tlf2] + ":")
-        tvEmail!!.setText(misContactos!!.email)
-        tvDireccion!!.setText(misContactos!!.direccion)
-        tvWeb!!.setText(misContactos!!.web)
-        tvSocial!!.setText(misContactos!!.social)
-        tvNotas!!.setText(misContactos!!.notas)
+        ivfotoContacto!!.setImageBitmap(misContactos!!.foto)
+
+        //etiquetas de texto con campos concatenados
+        val textNombreContacto =misContactos!!.nombre.toString() + " " + misContactos!!.apellidos
+        val textTelefono1Sp= "Teléfono " + TELEFONOS_LISTA[misContactos!!.spinnerTlf1] + ":"
+        val textTelefono2Sp="Teléfono " + TELEFONOS_LISTA[misContactos!!.spinnerTlf2] + ":"
+
+        tvnombreContacto!!.text = textNombreContacto
+        tvnacimientoContacto!!.text = misContactos!!.nacimiento
+        tvTelefono1!!.text = misContactos!!.telefono1
+        tvtelefono1Sp!!.text = textTelefono1Sp
+        tvTelefono2!!.text = misContactos!!.telefono2
+        tvtelefono2Sp!!.text = textTelefono2Sp
+        tvEmail!!.text = misContactos!!.email
+        tvDireccion!!.text = misContactos!!.direccion
+        tvWeb!!.text = misContactos!!.web
+        tvSocial!!.text = misContactos!!.social
+        tvNotas!!.text = misContactos!!.notas
+
         calculoCargaEdad()
         cargaClickListenerOncreate()
     }
@@ -117,7 +118,7 @@ class ContactoDetalle : AppCompatActivity() {
             val mesActual = Calendar.getInstance()[Calendar.MONTH]
             var anioActual = Calendar.getInstance()[Calendar.YEAR]
 
-            Log.d("Fecha Split raro: ", diaN.toString() + " " + mesN.toString() + " " + anioN.toString())
+            Log.d("Fecha Split raro: ", "$diaN $mesN $anioN")
 
             if (mesActual >= mesN) {
                 anioActual++
@@ -135,16 +136,11 @@ class ContactoDetalle : AppCompatActivity() {
 
         //Cuando hagamos click sobre el icono de web, se nos abrirá el enlace almacenado
         findViewById<View>(R.id.imWeb).setOnClickListener { //Si el contenido de Web no es vacio (es decir != "")
-            if (testVacio != misContactos!!.web) {
-                startActivity(
-                    Intent(Intent.ACTION_VIEW, Uri.parse(misContactos!!.web))
+            if (TEST_VACIO != misContactos!!.web) {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(misContactos!!.web))
                 )
             } else {
-                Toast.makeText(
-                    applicationContext,
-                    "No hay web o está mal introducida",
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(applicationContext, "No hay web o está mal introducida", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -174,19 +170,10 @@ class ContactoDetalle : AppCompatActivity() {
 
         //Cuando hagamos click sobre el icono de web, se nos abrirá el enlace almacenado
         findViewById<View>(R.id.imSocial).setOnClickListener { //Si el contenido de Web no es vacio (es decir != "")
-            if (testVacio != misContactos!!.social) {
-                startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse(misContactos!!.social)
-                    )
-                )
+            if (TEST_VACIO != misContactos!!.social) {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(misContactos!!.social)))
             } else {
-                Toast.makeText(
-                    applicationContext,
-                    "No hay web o está mal introducida",
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(applicationContext, "No hay web o está mal introducida", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -236,13 +223,13 @@ class ContactoDetalle : AppCompatActivity() {
         val dialog = AlertDialog.Builder(this@ContactoDetalle)
         val items = arrayOfNulls<CharSequence>(2)
 
-        items[0] = "Llamar a " + telefonos_lista[misContactos!!.spinner_tlf1] + ": " + misContactos!!.telefono1
-        items[1] = "Llamar a " + telefonos_lista[misContactos!!.spinner_tlf2] + ": " + misContactos!!.telefono2
+        items[0] = "Llamar a " + TELEFONOS_LISTA[misContactos!!.spinnerTlf1] + ": " + misContactos!!.telefono1
+        items[1] = "Llamar a " + TELEFONOS_LISTA[misContactos!!.spinnerTlf2] + ": " + misContactos!!.telefono2
 
         dialog.setTitle("Seleccione línea de teléfono")
         dialog.setItems(items) { dialog, which ->
             if (which == 0) {
-                if (testVacio != misContactos!!.telefono1) {
+                if (TEST_VACIO != misContactos!!.telefono1) {
                     val intent = Intent(Intent.ACTION_DIAL)
                     intent.data = Uri.parse("tel:" + misContactos!!.telefono1)
 
@@ -254,18 +241,14 @@ class ContactoDetalle : AppCompatActivity() {
                 }
             }
             if (which == 1) {
-                if (testVacio != misContactos!!.telefono2) {
+                if (TEST_VACIO != misContactos!!.telefono2) {
                     val intent = Intent(Intent.ACTION_DIAL)
                     intent.data = Uri.parse("tel:" + misContactos!!.telefono2)
                     if (intent.resolveActivity(packageManager) != null) {
                         startActivity(intent)
                     }
                 } else {
-                    Toast.makeText(
-                        applicationContext,
-                        "No hay teléfono en ese campo o su formato es erroneo",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(applicationContext, "No hay teléfono en ese campo o su formato es erroneo", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -277,9 +260,9 @@ class ContactoDetalle : AppCompatActivity() {
     }
 
     fun calculoCargaEdad() {
-        diaN = Integer.valueOf(java.lang.String.valueOf(misContactos!!.nacimiento.get(0) - '0') + java.lang.String.valueOf(misContactos!!.nacimiento.get(1) - '0'))
-        mesN = Integer.valueOf(java.lang.String.valueOf(misContactos!!.nacimiento.get(3) - '0') + java.lang.String.valueOf(misContactos!!.nacimiento.get(4) - '0'))
-        anioN = Integer.valueOf(java.lang.String.valueOf(misContactos!!.nacimiento.get(6) - '0') + java.lang.String.valueOf(misContactos!!.nacimiento.get(7) - '0') + java.lang.String.valueOf(misContactos!!.nacimiento.get(8) - '0') + java.lang.String.valueOf(misContactos!!.nacimiento.get(9) - '0'))
+        diaN = Integer.valueOf(java.lang.String.valueOf(misContactos!!.nacimiento[0] - '0') + java.lang.String.valueOf(misContactos!!.nacimiento[1] - '0'))
+        mesN = Integer.valueOf(java.lang.String.valueOf(misContactos!!.nacimiento[3] - '0') + java.lang.String.valueOf(misContactos!!.nacimiento[4] - '0'))
+        anioN = Integer.valueOf(java.lang.String.valueOf(misContactos!!.nacimiento[6] - '0') + java.lang.String.valueOf(misContactos!!.nacimiento[7] - '0') + java.lang.String.valueOf(misContactos!!.nacimiento[8] - '0') + java.lang.String.valueOf(misContactos!!.nacimiento[9] - '0'))
 
         val miCumple = Calendar.getInstance()
         val hoy = Calendar.getInstance()
@@ -303,7 +286,7 @@ class ContactoDetalle : AppCompatActivity() {
         dialog.setTitle("Como desea mostrar Maps")
         dialog.setItems(items) { dialog, which ->
             if (which == 0) {
-                if (testVacio != misContactos?.direccion) {
+                if (TEST_VACIO != misContactos?.direccion) {
                     val miPosicion = GeoPosicion()
                     val miGeoPosicion: String? = miPosicion.getLocationFromAddress(misContactos?.direccion, applicationContext)
                     Log.d("GEO: ", miGeoPosicion)
@@ -312,15 +295,11 @@ class ContactoDetalle : AppCompatActivity() {
                     val intent = Intent(Intent.ACTION_VIEW, intentUri)
                     startActivity(intent)
                 } else {
-                    Toast.makeText(
-                        applicationContext,
-                        "No hay dirección o esta en formato incorrecto",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(applicationContext, "No hay dirección o esta en formato incorrecto", Toast.LENGTH_LONG).show()
                 }
             }
             if (which == 1) {
-                if (testVacio != misContactos?.direccion) {
+                if (TEST_VACIO != misContactos?.direccion) {
                     val direccion = "Ubicación de " + misContactos?.nombre
                     val miPosicion = GeoPosicion()
                     val miGeoPosicion: String? = miPosicion.getLocationFromAddress(misContactos?.nombre, applicationContext)
@@ -331,10 +310,7 @@ class ContactoDetalle : AppCompatActivity() {
                     startActivity(intent)
                 } else {
                     Toast.makeText(
-                        applicationContext,
-                        "No hay dirección o esta en formato incorrecto",
-                        Toast.LENGTH_LONG
-                    ).show()
+                        applicationContext, "No hay dirección o esta en formato incorrecto", Toast.LENGTH_LONG).show()
                 }
             }
         }

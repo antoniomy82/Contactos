@@ -15,21 +15,67 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ajmorales.contactos.Contactos
-import com.ajmorales.contactos.R
 import com.example.recyclerview.AdaptadorRecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    var recyclerView: RecyclerView? = null
-    var adapter: AdaptadorRecyclerView? = null
-    var manager: RecyclerView.LayoutManager? = null
-    var switchOn = false //Lo usamos para saber como se encuentra el Switch
-    var tipoVista : String? = null//Usamos como flag para saber si es grid o list
+    private var recyclerView: RecyclerView? = null
+    private var adapter: AdaptadorRecyclerView? = null
+    private var manager: RecyclerView.LayoutManager? = null
+    private var switchOn = false //Lo usamos para saber como se encuentra el Switch
+    private var tipoVista : String? = null//Usamos como flag para saber si es grid o list
 
+    companion object {
+        private var listaContactos: ArrayList<Contactos>? = null
+        private var listaAuxiliar: ArrayList<Contactos>? = null
+        private var esBusqueda = false //Flag para saber si hemos realizado una búsqueda
+        var progressBar: ProgressBar? = null
 
+        fun getContacto(indice: Int): Contactos {
+            return listaContactos!![indice]
+        }
+
+        fun getImagen(indice: Int): Bitmap {
+            return listaContactos!![indice].foto!!
+        }
+
+        fun setContacto(foto: Bitmap?, nombre: String?, apellidos: String?, nacimiento: String?, telefono1: String?, spinner_tlf1: Int, telefono2: String?, spinner_tlf2: Int, email: String?, direccion: String?, web: String?, social: String?, notas: String?) {
+            listaContactos!!.add(Contactos(foto!!, nombre!!, apellidos!!, nacimiento!!, telefono1!!, spinner_tlf1, telefono2!!, spinner_tlf2, email!!, direccion!!, web!!, social!!, notas!!))
+            listaContactos = listaAuxiliar //Lista para borrados y actualizaciones, que no recarguemos la inicial
+        }
+
+        fun delContacto(posicion: Int) {
+            listaAuxiliar = listaContactos
+            listaAuxiliar!!.removeAt(posicion)
+            listaContactos = listaAuxiliar //Lista para borrados y actualizaciones, que no recarguemos la inicial
+        }
+
+        fun updateContacto(posicion: Int, nueva: Contactos) {
+            listaContactos!![posicion] = nueva
+            listaAuxiliar = listaContactos //Lista para borrados y actualizaciones, que no recarguemos la inicial
+        }
+
+        fun setEsBusqueda(listaFull: ArrayList<Contactos>?) {
+            esBusqueda = true
+            listaAuxiliar = listaFull
+        }
+
+        fun stopProgressBar() {
+            progressBar!!.visibility = View.GONE
+        }
+
+        fun getListaAuxiliar(): ArrayList<Contactos>? {
+            return listaAuxiliar
+        }
+
+        //Ordenamos la lista de contactos por nombre
+        fun ordenarListaContactos(lista: ArrayList<Contactos>?) {
+            lista!!.sortWith(Comparator { c1, c2 -> c1.nombre.compareTo(c2.nombre) })
+            listaContactos = lista
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         var toolbar: Toolbar? = null
         toolbar = findViewById(R.id.toolbar_main)
 
-        toolbar.setTitle("  Contactos")
+        toolbar.title = "  Contactos"
         toolbar.setLogo(R.drawable.ico_personal)
         setSupportActionBar(toolbar)
         val fbNuevo = findViewById<FloatingActionButton>(R.id.fbnuevo)
@@ -56,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         progressBar!!.visibility = View.VISIBLE
     }
 
-    fun setUpRecyclerView() {
+    private fun setUpRecyclerView() {
 
         //Según esté el switch seleccionamos la vista (grid o list)
         if (!switchOn) {
@@ -73,28 +119,27 @@ class MainActivity : AppCompatActivity() {
             listaAuxiliar = ArrayList<Contactos>()
             cargarListaContactos()
             listaAuxiliar = listaContactos
-        } else if (esBusqueda == true) { //Caso busquedas
+        } else if (esBusqueda) { //Caso busquedas
             listaContactos = getListaAuxiliar()
             esBusqueda = false
         }
         ordenarListaContactos(listaContactos)
         recyclerView = findViewById(R.id.rvListItems) //Aquí definimos dónde tenemos la vista del recyclerView XML
         recyclerView!!.setHasFixedSize(true) //con tamaño fijo, para que tarde menos el renderizado.
-        recyclerView!!.setLayoutManager(manager)
+        recyclerView!!.layoutManager = manager
         adapter = AdaptadorRecyclerView(this, listaContactos!!, tipoVista!!) //lista linearLayout o grid para grid Layout
-        recyclerView!!.setAdapter(adapter)
+        recyclerView!!.adapter = adapter
     }
 
     //Creamos el menú de opciones
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
-        //var toolbar = findViewById(R.id.toolbar_main)
 
-        //Switch
         val miSwitch = menu.findItem(R.id.switchVista) //Switch
         val switchOnOff: SwitchCompat = miSwitch.actionView.findViewById(R.id.switchVista)
         switchOnOff.setThumbResource(R.drawable.ic_list)
-        switchOnOff.setOnCheckedChangeListener { buttonView, isChecked ->
+
+        switchOnOff.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 Log.d("SWITCH ->On", "Esta On")
                 switchOn = true
@@ -110,8 +155,8 @@ class MainActivity : AppCompatActivity() {
 
         //Barra de busqueda por nombre
         val searchItem = menu.findItem(R.id.ab_busqueda)
-        val searchView =
-            searchItem.actionView as SearchView
+        val searchView = searchItem.actionView as SearchView
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
@@ -136,10 +181,6 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         //progressBar.setVisibility(View.VISIBLE);
         adapter!!.notifyDataSetChanged()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
     }
 
     private fun cargarListaContactos() {
@@ -299,93 +340,5 @@ class MainActivity : AppCompatActivity() {
         )
 
         listaContactos = listaCarga
-    }
-
-    companion object {
-        private var listaContactos: ArrayList<Contactos>? = null
-        private var listaAuxiliar: ArrayList<Contactos>? = null
-        private var esBusqueda =
-            false //Flag para saber si hemos realizado una búsqueda
-        var progressBar: ProgressBar? = null
-
-        /**
-         * Bloque de funciones auxiliares
-         * NOTA: Crear en un futuro ContactosCRUD
-         */
-        fun getContacto(indice: Int): Contactos {
-            return listaContactos!!.get(indice)
-        }
-
-        fun getImagen(indice: Int): Bitmap {
-            return listaContactos!!.get(indice).foto!!
-        }
-
-        fun setContacto(
-            foto: Bitmap?,
-            nombre: String?,
-            apellidos: String?,
-            nacimiento: String?,
-            telefono1: String?,
-            spinner_tlf1: Int,
-            telefono2: String?,
-            spinner_tlf2: Int,
-            email: String?,
-            direccion: String?,
-            web: String?,
-            social: String?,
-            notas: String?
-        ) {
-            listaContactos!!.add(
-                Contactos(
-                    foto!!,
-                    nombre!!,
-                    apellidos!!,
-                    nacimiento!!,
-                    telefono1!!,
-                    spinner_tlf1,
-                    telefono2!!,
-                    spinner_tlf2,
-                    email!!,
-                    direccion!!,
-                    web!!,
-                    social!!,
-                    notas!!
-                )
-            )
-            listaContactos =
-                listaAuxiliar //Lista para borrados y actualizaciones, que no recarguemos la inicial
-        }
-
-        fun delContacto(posicion: Int) {
-            listaAuxiliar = listaContactos
-            listaAuxiliar!!.removeAt(posicion)
-            listaContactos =
-                listaAuxiliar //Lista para borrados y actualizaciones, que no recarguemos la inicial
-        }
-
-        fun updateContacto(posicion: Int, nueva: Contactos) {
-            listaContactos!![posicion] = nueva
-            listaAuxiliar =
-                listaContactos //Lista para borrados y actualizaciones, que no recarguemos la inicial
-        }
-
-        fun setEsBusqueda(listaFull: ArrayList<Contactos>?) {
-            esBusqueda = true
-            listaAuxiliar = listaFull
-        }
-
-        fun stopProgressBar() {
-            progressBar!!.visibility = View.GONE
-        }
-
-        fun getListaAuxiliar(): ArrayList<Contactos>? {
-            return listaAuxiliar
-        }
-
-        //Ordenamos la lista de contactos por nombre
-        fun ordenarListaContactos(lista: ArrayList<Contactos>?) {
-            lista!!.sortWith(Comparator { c1, c2 -> c1.nombre.compareTo(c2.nombre) })
-            listaContactos = lista
-        }
     }
 }

@@ -33,39 +33,30 @@ class ContactoNuevo : AppCompatActivity() {
     private var contactoEditado: Contactos? = null
 
     private var year :Int = 0
-    private  var month:Int = 0
-    private  var day :Int = 0//Date picker
+    private var month:Int = 0
+    private var day :Int = 0//Date picker
 
+    private var edFoto: ImageView? = null
+    private var edNombre: EditText? = null
+    private var edApellidos: EditText? = null
+    private var edTelefono1: EditText? = null
+    private var spTelefono1: Spinner? = null
+    private var edTelefono2: EditText? = null
+    private var spTelefono2: Spinner? = null
+    private var edEmail: EditText? = null
+    private var edDireccion: EditText? = null
+    private var edWeb: EditText? = null
+    private var tvFechaNacimiento: TextView? = null
+    private var bNacimiento: Button? = null
+    private var edNotas: EditText? = null
+    private var edSocial: EditText? = null
 
-    var edFoto: ImageView? = null
-    var edNombre: EditText? = null
-    var edApellidos: EditText? = null
-    var edTelefono1: EditText? = null
-    var spTelefono1: Spinner? = null
-    var edTelefono2: EditText? = null
-    var spTelefono2: Spinner? = null
-    var edEmail: EditText? = null
-    var edDireccion: EditText? = null
-    var edWeb: EditText? = null
-    var tvFechaNacimiento: TextView? = null
-    var bNacimiento: Button? = null
-    var edNotas: EditText? = null
-    var edSocial: EditText? = null
-
-
-    val IMAGE_TYPE = "image/*"
+    //Variables estáticas
+    private val IMAGE_TYPE = "image/*"
     private val SELECT_SINGLE_PICTURE = 200
     private val REQUEST_IMAGE_CAPTURE = 100
+    private val TELEFONOS_LISTA: Array<String> = arrayOf("casa", "trabajo", "móvil", "móvil trabajo", "móvil 2", "casa 2", "otro")
 
-    private val telefonos_lista = arrayOf(
-        "casa",
-        "trabajo",
-        "móvil",
-        "nóvil trabajo",
-        "móvil 2",
-        "casa 2",
-        "otro"
-    )
     private var selectedImagePreview: ImageView? = null
 
 
@@ -80,8 +71,7 @@ class ContactoNuevo : AppCompatActivity() {
         val miBar = supportActionBar
         miBar!!.setDisplayHomeAsUpEnabled(true)
 
-        //Date picker
-        val calendar = Calendar.getInstance()
+        val calendar = Calendar.getInstance() //Date picker
         year = calendar[Calendar.YEAR]
         month = calendar[Calendar.MONTH]
         day = calendar[Calendar.DAY_OF_MONTH]
@@ -102,38 +92,36 @@ class ContactoNuevo : AppCompatActivity() {
         editable = intent.getBooleanExtra("Edicion", false)
 
         //Spinners
-        val spAdapter: ArrayAdapter<*> = ArrayAdapter(
-            this,
-            android.R.layout.simple_dropdown_item_1line,
-            telefonos_lista
-        )
+        val spAdapter: ArrayAdapter<*> = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, TELEFONOS_LISTA)
+
         spTelefono1 = findViewById<View>(R.id.sp_telefono1) as Spinner
         spTelefono2 = findViewById(R.id.sp_telefono2)
         spTelefono1!!.adapter = spAdapter
-        spTelefono2!!.setAdapter(spAdapter)
+        spTelefono2!!.adapter = spAdapter
+
         if (editable) {
             indice = intent.getIntExtra("edIndice", 0)
-            toolbar!!.setTitle("Editar contacto")
+            toolbar!!.title = "Editar contacto"
 
             //Cargamos el objeto
             contactoEditado = MainActivity.getContacto(intent.getIntExtra("edIndice", 0))
             edFoto!!.setImageBitmap(contactoEditado!!.foto)
             edNombre!!.setText(contactoEditado!!.nombre)
-            tvFechaNacimiento!!.setText(contactoEditado!!.nacimiento)
-            bNacimiento!!.setText("Cambiar")
+            tvFechaNacimiento!!.text = contactoEditado!!.nacimiento
+            bNacimiento!!.text = "Cambiar"
             edApellidos!!.setText(contactoEditado!!.apellidos)
             edTelefono1!!.setText(contactoEditado!!.telefono1)
-            spTelefono1!!.setSelection(contactoEditado!!.spinner_tlf1)
+            spTelefono1!!.setSelection(contactoEditado!!.spinnerTlf1)
             edTelefono2!!.setText(contactoEditado!!.telefono2)
-            spTelefono2!!.setSelection(contactoEditado!!.spinner_tlf2)
+            spTelefono2!!.setSelection(contactoEditado!!.spinnerTlf2)
             edEmail!!.setText(contactoEditado!!.email)
             edDireccion!!.setText(contactoEditado!!.direccion)
             edWeb!!.setText(contactoEditado!!.web)
             edSocial!!.setText(contactoEditado!!.social)
             edNotas!!.setText(contactoEditado!!.notas)
         }
+
         if (selectedImagePreview != null) {
-            Log.d("ImagePreview: ", "Entra")
             val drawable = selectedImagePreview!!.drawable as BitmapDrawable
             val bitmap = drawable.bitmap
             edFoto!!.setImageBitmap(bitmap)
@@ -141,17 +129,14 @@ class ContactoNuevo : AppCompatActivity() {
         //Cuando clicamos en la foto
         findViewById<View>(R.id.ivFoto_Contacto_Nuevo).setOnClickListener {
             tomarFotoDialog() //Llamo a mi Alert Dialog personalizado
-            selectedImagePreview =
-                findViewById(R.id.ivFoto_Contacto_Nuevo)
+            selectedImagePreview = findViewById(R.id.ivFoto_Contacto_Nuevo)
         }
-
 
         //Cuando obtenemos la dirección GPS
         findViewById<View>(R.id.imGPS).setOnClickListener { gps() }
+
     } //OnCreate
 
-
-    //Botón fecha de nacimiento, establecer en su onClick
 
     //Botón fecha de nacimiento, establecer en su onClick
     fun setDate(view: View?) {
@@ -166,8 +151,7 @@ class ContactoNuevo : AppCompatActivity() {
         } else null
     }
 
-    private val myDateListener =
-        OnDateSetListener { arg0, arg1, arg2, arg3 -> // TODO Auto-generated method stub
+    private val myDateListener = OnDateSetListener { arg0, arg1, arg2, arg3 -> // TODO Auto-generated method stub
             // arg1 = year
             // arg2 = month
             // arg3 = day
@@ -221,77 +205,53 @@ class ContactoNuevo : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_contacto_nuevo, menu)
         val bNuevo = menu.findItem(R.id.bGuardar)
+
+        //Opción de Menú de toolbar
         bNuevo.setOnMenuItemClickListener {
             if (editable) {
-                val actualizada = Contactos(
-                    (edFoto!!.drawable as BitmapDrawable).bitmap,
-                    edNombre!!.text.toString(),
-                    edApellidos!!.text.toString(),
-                    tvFechaNacimiento!!.text.toString(),
-                    edTelefono1!!.text.toString(),
-                    spTelefono1!!.selectedItemPosition,
-                    edTelefono2!!.text.toString(),
-                    spTelefono2!!.selectedItemPosition,
-                    edEmail!!.text.toString(),
-                    edDireccion!!.text.toString(),
-                    edWeb!!.text.toString(),
-                    edSocial!!.text.toString(),
-                    edNotas!!.text.toString()
-                )
+                val actualizada = Contactos((edFoto!!.drawable as BitmapDrawable).bitmap, edNombre!!.text.toString(), edApellidos!!.text.toString(), tvFechaNacimiento!!.text.toString(),
+                    edTelefono1!!.text.toString(), spTelefono1!!.selectedItemPosition, edTelefono2!!.text.toString(), spTelefono2!!.selectedItemPosition, edEmail!!.text.toString(),
+                    edDireccion!!.text.toString(), edWeb!!.text.toString(), edSocial!!.text.toString(), edNotas!!.text.toString())
+
                 MainActivity.updateContacto(indice, actualizada)
+
             } else {
-                MainActivity.setContacto(
-                    (edFoto!!.drawable as BitmapDrawable).bitmap,
-                    edNombre!!.text.toString(),
-                    edApellidos!!.text.toString(),
-                    tvFechaNacimiento!!.text.toString(),
-                    edTelefono1!!.text.toString(),
-                    spTelefono1!!.selectedItemPosition,
-                    edTelefono2!!.text.toString(),
-                    spTelefono2!!.selectedItemPosition,
-                    edEmail!!.text.toString(),
-                    edDireccion!!.text.toString(),
-                    edWeb!!.text.toString(),
-                    edSocial!!.text.toString(),
-                    edNotas!!.text.toString()
-                )
+                MainActivity.setContacto((edFoto!!.drawable as BitmapDrawable).bitmap, edNombre!!.text.toString(), edApellidos!!.text.toString(), tvFechaNacimiento!!.text.toString(),
+                    edTelefono1!!.text.toString(), spTelefono1!!.selectedItemPosition, edTelefono2!!.text.toString(), spTelefono2!!.selectedItemPosition, edEmail!!.text.toString(),
+                    edDireccion!!.text.toString(), edWeb!!.text.toString(), edSocial!!.text.toString(), edNotas!!.text.toString())
             }
+
             val intent = Intent(applicationContext, MainActivity::class.java)
             startActivity(intent)
             true
         }
         return super.onCreateOptionsMenu(menu)
-    }
+
+    }//OnCreateOptionMenu
 
     //Cargamos imagen
-    internal fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
-            val extras = data.extras
+            val extras = data!!.extras
             val imageBitmap = extras!!["data"] as Bitmap?
             selectedImagePreview!!.setImageBitmap(imageBitmap)
         }
         if (resultCode == Activity.RESULT_OK && requestCode == SELECT_SINGLE_PICTURE) {
-            val selectedImageUri = data.data
+            val selectedImageUri = data!!.data
+
             try {
                 selectedImagePreview!!.setImageBitmap(UserPicture(selectedImageUri!!, contentResolver).bitmap)
-
-            } catch (e: IOException) {
-                Log.e(
-                    MainActivity::class.java.simpleName,
-                    "Error al cargar imagen",
-                    e
-                )
+               }
+            catch (e: IOException) {
+                Log.e(MainActivity::class.java.simpleName, "Error al cargar imagen", e)
             }
         }
     }
 
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String?>,
-        grantResults: IntArray
-    ) {
+    //Solicitamos permisos para la cámara
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -315,6 +275,7 @@ class ContactoNuevo : AppCompatActivity() {
         dialog.setItems(items) { dialog, which ->
             if (which == 0) {
                 val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
                 if (takePictureIntent.resolveActivity(packageManager) != null) {
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                 }
@@ -323,15 +284,13 @@ class ContactoNuevo : AppCompatActivity() {
                 val nuevaImagen = Intent()
                 nuevaImagen.type = IMAGE_TYPE
                 nuevaImagen.action = Intent.ACTION_GET_CONTENT
-                startActivityForResult(
-                    Intent.createChooser(nuevaImagen, "Select Picture"),
-                    SELECT_SINGLE_PICTURE
-                )
+
+                startActivityForResult(Intent.createChooser(nuevaImagen, "Select Picture"), SELECT_SINGLE_PICTURE)
             }
         }
-        dialog.setNegativeButton(
-            "Cancelar"
-        ) { dialog, which -> }
+
+        dialog.setNegativeButton("Cancelar") { dialog, which -> }
+
         val alert = dialog.create()
         alert.show()
     }
@@ -345,59 +304,37 @@ class ContactoNuevo : AppCompatActivity() {
         val gps = GPSTracker(applicationContext, this@ContactoNuevo)
 
         //Check GPS Permissions
-        if (ContextCompat.checkSelfPermission(
-                applicationContext,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(
-                applicationContext,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this@ContactoNuevo,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                1
-            )
-        } else  //I have permissions
-        {
-            if (gps.canGetLocation()) { //I have GPS enable
-                val latitude: Double = gps.getLatitude()
-                val longitude: Double = gps.getLongitude()
+        if (ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                applicationContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
+            ActivityCompat.requestPermissions(this@ContactoNuevo, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
 
-                // \n is for new line
-                Toast.makeText(
-                    applicationContext,
-                    "Ubicación - \nLat: $latitude\nLong: $longitude",
-                    Toast.LENGTH_LONG
-                ).show()
-                address = gps.getLocationAddress(latitude, longitude)
-                edDireccion!!.setText(address)
-            } else { //I have GPS disable
-                dialogNoGPS()
+        } else { //Tengo permisos
+                if (gps.canGetLocation()) { //I have GPS enable
+                    val latitude: Double = gps.getLatitude()
+                    val longitude: Double = gps.getLongitude()
+
+                    // \n is for new line
+                    Toast.makeText(applicationContext, "Ubicación - \nLat: $latitude\nLong: $longitude", Toast.LENGTH_LONG).show()
+                    address = gps.getLocationAddress(latitude, longitude)
+                    edDireccion!!.setText(address)
+
+                } else { dialogNoGPS() }//GPS deshabilitado o no tengo GPS
             }
-        }
     } //onClick
 
 
     //GPS desactivado
     private fun dialogNoGPS() {
-        val dialog =
-            AlertDialog.Builder(this@ContactoNuevo)
+        val dialog = AlertDialog.Builder(this@ContactoNuevo)
         dialog.setCancelable(false)
         dialog.setTitle("GPS DESACTIVADO")
         dialog.setMessage("¿Desea activar GPS?")
-        dialog.setPositiveButton(
-            "Aceptar"
-        ) { dialog, id ->
-            val intent =
-                Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+        dialog.setPositiveButton("Aceptar") { dialog, id ->
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             this@ContactoNuevo.startActivity(intent)
         }
-            .setNegativeButton(
-                "Cancelar "
-            ) { dialog, which -> //Action for "Cancel".
+            .setNegativeButton("Cancelar ") { dialog, which -> //Action for "Cancel".
                 dialog.cancel()
             }
         val alert = dialog.create()
