@@ -204,25 +204,49 @@ class ContactoNuevo : AppCompatActivity() {
     //Creamos el menú de opciones
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_contacto_nuevo, menu)
-        val bNuevo = menu.findItem(R.id.bGuardar)
+        val bGuardar = menu.findItem(R.id.bGuardar)
 
         //Opción de Menú de toolbar
-        bNuevo.setOnMenuItemClickListener {
+        bGuardar.setOnMenuItemClickListener {
+            val intent = Intent(applicationContext, MainActivity::class.java)
+
             if (editable) {
                 val actualizada = Contactos((edFoto!!.drawable as BitmapDrawable).bitmap, edNombre!!.text.toString(), edApellidos!!.text.toString(), tvFechaNacimiento!!.text.toString(),
                     edTelefono1!!.text.toString(), spTelefono1!!.selectedItemPosition, edTelefono2!!.text.toString(), spTelefono2!!.selectedItemPosition, edEmail!!.text.toString(),
                     edDireccion!!.text.toString(), edWeb!!.text.toString(), edSocial!!.text.toString(), edNotas!!.text.toString())
 
-                MainActivity.updateContacto(indice, actualizada)
+                if(edNombre!!.text.toString()=="" ||edNombre!!.text.toString().isBlank()){
+                    dialogNombreVacio()
+                }
+                else{
+                    MainActivity.updateContacto(indice, actualizada)
+                    startActivity(intent)
+                }
 
             } else {
-                MainActivity.setContacto((edFoto!!.drawable as BitmapDrawable).bitmap, edNombre!!.text.toString(), edApellidos!!.text.toString(), tvFechaNacimiento!!.text.toString(),
-                    edTelefono1!!.text.toString(), spTelefono1!!.selectedItemPosition, edTelefono2!!.text.toString(), spTelefono2!!.selectedItemPosition, edEmail!!.text.toString(),
-                    edDireccion!!.text.toString(), edWeb!!.text.toString(), edSocial!!.text.toString(), edNotas!!.text.toString())
+                if(edNombre!!.text.toString()=="" ||edNombre!!.text.toString().isBlank()){
+                    dialogNombreVacio()
+                }
+                else {
+                    MainActivity.setContacto(
+                        (edFoto!!.drawable as BitmapDrawable).bitmap,
+                        edNombre!!.text.toString(),
+                        edApellidos!!.text.toString(),
+                        tvFechaNacimiento!!.text.toString(),
+                        edTelefono1!!.text.toString(),
+                        spTelefono1!!.selectedItemPosition,
+                        edTelefono2!!.text.toString(),
+                        spTelefono2!!.selectedItemPosition,
+                        edEmail!!.text.toString(),
+                        edDireccion!!.text.toString(),
+                        edWeb!!.text.toString(),
+                        edSocial!!.text.toString(),
+                        edNotas!!.text.toString()
+                    )
+                    startActivity(intent)
+                }
             }
 
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(intent)
             true
         }
         return super.onCreateOptionsMenu(menu)
@@ -339,6 +363,18 @@ class ContactoNuevo : AppCompatActivity() {
             .setNegativeButton("Cancelar ") { dialog, which -> //Action for "Cancel".
                 dialog.cancel()
             }
+        val alert = dialog.create()
+        alert.show()
+    }
+
+    //Nombre vacío
+    fun dialogNombreVacio() {
+        val dialog = AlertDialog.Builder(this)
+        dialog.setCancelable(false)
+        dialog.setTitle("NOMBRE VACÍO")
+        dialog.setMessage("Debe introducir al menos un nombre")
+
+        dialog.setPositiveButton("Aceptar") { dialog, id -> }
         val alert = dialog.create()
         alert.show()
     }
