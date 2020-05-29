@@ -64,7 +64,7 @@ class ContactoNuevo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contacto_nuevo)
         toolbar = findViewById(R.id.toolbar_contacto)
-        toolbar!!.setTitle("Crear contacto")
+        toolbar!!.title = "Crear contacto"
         setSupportActionBar(toolbar)
 
         //Activo la flecha Home de vuelta a atrás
@@ -236,6 +236,8 @@ class ContactoNuevo : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
             val extras = data!!.extras
             val imageBitmap = extras!!["data"] as Bitmap?
+
+
             selectedImagePreview!!.setImageBitmap(imageBitmap)
         }
         if (resultCode == Activity.RESULT_OK && requestCode == SELECT_SINGLE_PICTURE) {

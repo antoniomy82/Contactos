@@ -20,10 +20,9 @@
 
     <ImageView
         android:id="@+id/imDetalleFoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar_detalle_foto"
-        android:layout_marginTop="10dp"
+        android:layout_below="@id/toolbar_detalle_foto"
+        android:layout_width="420dp"
+        android:layout_height="800dp"
         android:contentDescription="@string/ivFoto"
         android:scaleType="matrix" />
 

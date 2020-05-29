@@ -1,23 +1,31 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Antonio">
     <words>
+      <w>activo</w>
       <w>actualizada</w>
       <w>anio</w>
       <w>apellidos</w>
+      <w>atrás</w>
       <w>borrar</w>
+      <w>cargamos</w>
       <w>contacto</w>
       <w>contactos</w>
+      <w>crear</w>
       <w>detalle</w>
       <w>direccion</w>
       <w>edad</w>
+      <w>editado</w>
       <w>editar</w>
       <w>fecha</w>
+      <w>flecha</w>
       <w>foto</w>
+      <w>indice</w>
       <w>ivfoto</w>
       <w>nacimiento</w>
       <w>nombre</w>
       <w>notas</w>
       <w>nuevo</w>
+      <w>objeto</w>
       <w>posicion</w>
       <w>telefono</w>
       <w>telefonos</w>
@@ -25,6 +33,7 @@
       <w>tvnacimiento</w>
       <w>tvnombre</w>
       <w>tvtelefono</w>
+      <w>vuelta</w>
     </words>
   </dictionary>
 </component>
