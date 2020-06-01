@@ -30,5 +30,10 @@ Lista de contactos principal, con barra de búsqueda:
 Detalle de un contacto, con sus diferentes opciones:
 <img src="https://github.com/antoniomy82/Contactos/blob/master/Capturas/00_Detalle.png">
 
+Crear contacto, y sus opciones:
+<img scr="https://github.com/antoniomy82/Contactos/blob/master/Capturas/00_Nuevo.png">
 
+A medida que vaya perfeccionando el proyecto, agregaré cambios al proyecto.
+
+Espero que os sirva de ayuda, un saludo!
 
