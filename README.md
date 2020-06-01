@@ -35,5 +35,9 @@ Crear contacto, y sus opciones:
 
 A medida que vaya perfeccionando el proyecto, agregaré cambios al proyecto.
 
+Para concluir, he reutilizado código de @hdante en la funcion **UserPicture**, 
+ * http://stackoverflow.com/users/1797000/hdante 
+ para cambiar el tamaño de un bitmap y evitar perder el tiempo implementandola, ya que para estos casos usaría librerias tipo Picaso.
+
 Espero que os sirva de ayuda, un saludo!
 
