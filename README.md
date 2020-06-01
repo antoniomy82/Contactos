@@ -31,7 +31,7 @@ Detalle de un contacto, con sus diferentes opciones:
 <img src="https://github.com/antoniomy82/Contactos/blob/master/Capturas/00_Detalle.png">
 
 Crear contacto, y sus opciones:
-<img scr="https://github.com/antoniomy82/Contactos/blob/master/Capturas/00_Nuevo.png">
+<img src="https://github.com/antoniomy82/Contactos/blob/master/Capturas/00_Detalle.png">
 
 A medida que vaya perfeccionando el proyecto, agregaré cambios al proyecto.
 
