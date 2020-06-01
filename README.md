@@ -40,6 +40,7 @@ Versiones de la App:
 - **V1.0** En esta versión, se realiza la estructura de datos y el almacenamiento mediante un ArrayList, por simplicidad y reducir la complejidad del proyecto.
 
 Para acceder a las diferentes versiones del proyecto, podéis hacerlo cómo se muestra en la siguiente captura:
+<img src="https://github.com/antoniomy82/Contactos/blob/master/Capturas/release_v1.0.png">
 
 Espero que os sirva de ayuda, un saludo!
 
