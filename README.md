@@ -27,4 +27,8 @@ A continuación, se pueden muestro capturas de pantalla de sus funcionalidades.
 Lista de contactos principal, con barra de búsqueda:
 <img src="https://github.com/antoniomy82/Contactos/blob/master/Capturas/00_Menu.png">
 
+Detalle de un contacto, con sus diferentes opciones:
+<img src="https://github.com/antoniomy82/Contactos/blob/master/Capturas/00_Detalle.png">
+
+
 
