@@ -17,8 +17,10 @@ import java.io.IOException
 import java.util.*
 
 /**
- * Created by antonio on 12/4/17.
- */
+ *  Created by Antonio J Morales "el colega informático" on 12/4/17.
+ *  Si te interesa, puedes ver como se ha realizado esta App en mi Canal de Youtube: https://www.youtube.com/channel/UC2XTU132H9tHCnM_A3opCzQ
+ *  Puedes descargar el código de mi Github : https://github.com/antoniomy82
+*/
 open class GPSTracker : Service {
 
     private var mContext: Context? = null

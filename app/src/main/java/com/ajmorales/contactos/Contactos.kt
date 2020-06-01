@@ -2,6 +2,12 @@ package com.ajmorales.contactos
 
 import android.graphics.Bitmap
 
+/**
+ *  Creado por Antonio J Morales "el colega informático" on 22/05/2020
+ *  Si te interesa, puedes ver como se ha realizado esta App en mi Canal de Youtube: https://www.youtube.com/channel/UC2XTU132H9tHCnM_A3opCzQ
+ *  Puedes descargar el código de mi Github : https://github.com/antoniomy82
+ */
+
 class Contactos (foto: Bitmap, nombre: String, apellidos: String, nacimiento: String, telefono1: String, spinner_tlf1: Int, telefono2: String,spinner_tlf2: Int,
                  email: String, direccion: String, web: String, social: String, notas: String) {
 

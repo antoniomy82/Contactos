@@ -7,6 +7,11 @@ import android.view.ScaleGestureDetector
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+/**
+ *  Creado por Antonio J Morales "el colega informático" on 22/05/2020
+ *  Si te interesa, puedes ver como se ha realizado esta App en mi Canal de Youtube: https://www.youtube.com/channel/UC2XTU132H9tHCnM_A3opCzQ
+ *  Puedes descargar el código de mi Github : https://github.com/antoniomy82
+ */
 
 class DetalleFotoActivity : AppCompatActivity() {
 

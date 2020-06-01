@@ -17,6 +17,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import java.util.*
 
+/**
+ *  Creado por Antonio J Morales "el colega informático" on 22/05/2020
+ *  Si te interesa, puedes ver como se ha realizado esta App en mi Canal de Youtube: https://www.youtube.com/channel/UC2XTU132H9tHCnM_A3opCzQ
+ *  Puedes descargar el código de mi Github : https://github.com/antoniomy82
+ */
+
 class ContactoDetalle : AppCompatActivity() {
 
     //Variables estilo camelCase
