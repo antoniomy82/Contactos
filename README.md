@@ -22,4 +22,4 @@ Entre las funciones que tiene esta aplicación, podemos encontrar:
 En esta versión V-1.0, para simplificar su desarrollo, el modelo de datos lo he implementado sobre un ArrayList y por simplicidad,
 no he utilizado Fragments. Poco a poco, iré aumentando la complejidad del proyecto y subiendo nuevas funcialidades.
 
-A continuacón, se pueden muestro capturas de pantalla de sus funcionalidades.
+A continuación, se pueden muestro capturas de pantalla de sus funcionalidades.
