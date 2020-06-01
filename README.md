@@ -23,3 +23,8 @@ En esta versión V-1.0, para simplificar su desarrollo, el modelo de datos lo he
 no he utilizado Fragments. Poco a poco, iré aumentando la complejidad del proyecto y subiendo nuevas funcialidades.
 
 A continuación, se pueden muestro capturas de pantalla de sus funcionalidades.
+
+Lista de contactos principal, con barra de búsqueda:
+<img src="https://github.com/antoniomy82/Contactos/blob/master/Capturas/00_Menu.png">
+
+
