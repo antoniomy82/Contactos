@@ -1,4 +1,4 @@
-package com.example.recyclerview
+package com.ajmorales.contactos
 
 import android.content.Context
 import android.content.Intent
@@ -12,10 +12,6 @@ import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.ajmorales.contactos.ContactoDetalle
-import com.ajmorales.contactos.Contactos
-import com.ajmorales.contactos.MainActivity
-import com.ajmorales.contactos.R
 import java.util.*
 
 /**
@@ -28,7 +24,7 @@ class AdaptadorRecyclerView(var context: Context, listaItems: ArrayList<Contacto
 
     var listaFull: ArrayList<Contactos>?=null
     var listaCopia: ArrayList<Contactos>?=null
-    var tipoVista: String
+    private var tipoVista: String
 
     //Constructor por parámetros
     init {
@@ -65,11 +61,11 @@ class AdaptadorRecyclerView(var context: Context, listaItems: ArrayList<Contacto
         //Comprobamos si la vista es grid o lista
         if (tipoVista == "lista") {
             miViewHolder.tvItemNombre.setText(contactos.nombre.toString() + " " + contactos.apellidos)
-            miViewHolder.tvItemInicial.setText(contactos.nombre.get(0).toString()) //obtenemos la inicial
+            miViewHolder.tvItemInicial.setText(contactos.nombre[0].toString()) //obtenemos la inicial
 
         } else {
             miViewHolder.tvItemNombre.setText(contactos.nombre)
-            miViewHolder.tvItemInicial.setText(contactos.nombre.get(0).toString()) //obtenemos la inicial
+            miViewHolder.tvItemInicial.setText(contactos.nombre[0].toString()) //obtenemos la inicial
 
             //Pongo las celdas pares de otro color
             if (position % 2 == 0) {
@@ -118,7 +114,7 @@ class AdaptadorRecyclerView(var context: Context, listaItems: ArrayList<Contacto
         override fun performFiltering(constraint: CharSequence): FilterResults {
             val filteredList: MutableList<Contactos> =
                 ArrayList<Contactos>()
-            if (constraint == null || constraint.length == 0) {
+            if (constraint == null || constraint.isEmpty()) {
                 listaFull?.let { filteredList.addAll(it) }
             } else {
                 val filterPattern = constraint.toString().toLowerCase().trim { it <= ' ' }

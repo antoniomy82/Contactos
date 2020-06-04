@@ -15,7 +15,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.recyclerview.AdaptadorRecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
 
@@ -183,7 +182,7 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 
-    //Actualizo recicleView despues de un añadido o un borrado.
+    //Actualizo recicleView despues de un añadido , un borrado o busqueda
     override fun onResume() {
         super.onResume()
         //progressBar.setVisibility(View.VISIBLE);
@@ -339,7 +338,7 @@ class MainActivity : AppCompatActivity() {
                 "",
                 4,
                 "elcolegainformatico_82@gmail.com",
-                "Ctra Canillas 21,4A, Madrid",
+                "Ctra Canillas 220, Madrid",
                 "",
                 "https://www.youtube.com/channel/UC2XTU132H9tHCnM_A3opCzQ",
                 "Yo mismo"
