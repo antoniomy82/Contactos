@@ -40,5 +40,3 @@ Para acceder a las diferentes versiones del proyecto, podéis hacerlo cómo se m
 La función **UserPicture** se ha basado en el código de @hdante para cambiar el tamaño de un bitmap. 
  * http://stackoverflow.com/users/1797000/hdante 
 
-Espero que os sirva de ayuda, un saludo!
-
