@@ -22,12 +22,15 @@ Entre las funciones que tiene esta aplicación, podemos encontrar:
 ## Story board ##
 
 Lista de contactos principal, con barra de búsqueda:
+
 <img src="https://github.com/antoniomy82/Contactos/blob/master/Capturas/00_Menu.png">
 
 Detalle de un contacto, con sus diferentes opciones:
+
 <img src="https://github.com/antoniomy82/Contactos/blob/master/Capturas/00_Detalle.png">
 
 Crear contacto, y sus opciones:
+
 <img src="https://github.com/antoniomy82/Contactos/blob/master/Capturas/00_Nuevo.png">
 
 
