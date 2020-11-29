@@ -23,6 +23,7 @@ Entre las funciones que tiene esta aplicación, podemos encontrar:
   - Abrir Google Maps con una Geo Posición y explorarla con los datos de Maps.
 - Abrir la marcación de teléfono.
 - Visualización en modo lista, o cuadricula (grid), mediante un Switch.
+- Almacenamiento de datos en SQLite.
 
 ## Story board ##
 
@@ -45,6 +46,4 @@ Crear contacto, y sus opciones:
 Para acceder a las diferentes versiones del proyecto, podéis hacerlo cómo se muestra en la siguiente captura:
 <img src="https://github.com/antoniomy82/Contactos/blob/master/Capturas/release_v1.0.png">
 
-La función **UserPicture** se ha basado en el código de @hdante para cambiar el tamaño de un bitmap. 
- * http://stackoverflow.com/users/1797000/hdante 
 
