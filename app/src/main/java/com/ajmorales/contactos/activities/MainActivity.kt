@@ -27,8 +27,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  *  Creado por Antonio J Morales on 22/05/2020
@@ -138,7 +136,7 @@ class MainActivity : AppCompatActivity() {
 
         //Ordenamos la lista de contactos por nombre
         fun ordenarListaContactos(lista: ArrayList<Contactos>?) {
-            lista?.sortWith(Comparator { c1, c2 -> c1.nombre.compareTo(c2.nombre) })
+            lista?.sortWith({ c1, c2 -> c1.nombre.compareTo(c2.nombre) })
             if (lista != null) {
                 listaContactos = lista
             }
@@ -151,7 +149,7 @@ class MainActivity : AppCompatActivity() {
         progressBar = findViewById<View>(R.id.circularProgress) as ProgressBar
         tvLoad = findViewById(R.id.tvLoading)
 
-        var toolbar: Toolbar? = null
+        val toolbar: Toolbar?
         toolbar = findViewById(R.id.toolbar_main)
 
         toolbar.title = "  Contactos"
@@ -179,7 +177,7 @@ class MainActivity : AppCompatActivity() {
                 setUpRecyclerView() //Cargamos datos
             }
             val handler = Handler(Looper.getMainLooper())
-            handler.postDelayed(runnable, 15000)
+            handler.postDelayed(runnable, 20000)
         } else {
             setUpRecyclerView() //Cargamos datos
         }

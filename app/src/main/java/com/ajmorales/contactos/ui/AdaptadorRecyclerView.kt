@@ -32,7 +32,6 @@ class AdaptadorRecyclerView(var context: Context, listaItems: ArrayList<Contacto
 
     //Constructor por parámetros
     init {
-        this.context=context
         this.listaCopia=listaItems
         listaFull = ArrayList<Contactos>(listaItems)
         this.tipoVista = tipoVista
@@ -64,15 +63,16 @@ class AdaptadorRecyclerView(var context: Context, listaItems: ArrayList<Contacto
 
         //Comprobamos si la vista es grid o lista
         if (tipoVista == "lista") {
-            miViewHolder?.tvItemNombre?.text =
-                contactos?.nombre.toString() + " " + contactos?.apellidos
+            miViewHolder?.tvItemNombre?.text = contactos?.nombre
+            miViewHolder?.tvItemApellidos?.text = contactos?.apellidos
             miViewHolder?.tvItemInicial?.text =
                 contactos!!.nombre[0].toString() //obtenemos la inicial
 
         } else {
             miViewHolder?.tvItemNombre?.text = contactos?.nombre
+            miViewHolder?.tvItemApellidos?.text = contactos?.apellidos
             miViewHolder?.tvItemInicial?.text =
-                contactos!!.nombre[0].toString() //obtenemos la inicial
+                contactos?.nombre?.get(0).toString() //obtenemos la inicial
 
             //Pongo las celdas pares de otro color
             if (position % 2 == 0) {
@@ -103,6 +103,7 @@ class AdaptadorRecyclerView(var context: Context, listaItems: ArrayList<Contacto
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var ivFoto: ImageView = itemView.findViewById<View>(R.id.ivFoto_contacto) as ImageView
         var tvItemNombre: TextView = itemView.findViewById(R.id.tvItemNombre)
+        var tvItemApellidos: TextView = itemView.findViewById(R.id.tvItemApellidos)
         var tvItemInicial: TextView = itemView.findViewById(R.id.tvInicial)
     }
 
@@ -116,15 +117,16 @@ class AdaptadorRecyclerView(var context: Context, listaItems: ArrayList<Contacto
         override fun performFiltering(constraint: CharSequence): FilterResults {
             val filteredList: MutableList<Contactos> =
                 ArrayList<Contactos>()
-            if (constraint == null || constraint.isEmpty()) {
+            if (constraint.isBlank() || constraint.isEmpty()) {
                 listaFull?.let { filteredList.addAll(it) }
             } else {
-                val filterPattern = constraint.toString().toLowerCase().trim { it <= ' ' }
+                val filterPattern =
+                    constraint.toString().toLowerCase(Locale.ROOT).trim { it <= ' ' }
 
                 Log.d("ListaItems", listaFull?.size.toString())
 
                 for (item in listaFull!!) {
-                    if (item.nombre.toLowerCase().contains(filterPattern)) {
+                    if (item.nombre.toLowerCase(Locale.ROOT).contains(filterPattern)) {
                         Log.d("Item->", item.nombre)
                         filteredList.add(item)
                     }
