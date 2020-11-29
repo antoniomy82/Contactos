@@ -1,3 +1,8 @@
+## NOTA ##
+Esta App está en proceso de desarrollo, quedando pendiente las siguientes tareas:
+- Refactorizar clases, para transformarlas de MVC a MVVM.
+- Utilizar Room y crear @PrimaryKey(autoGenerate = true)
+
 # Contactos
 
 App desarrallada en Kotlin, que emula la libreta de contactos de Google, para mostrar las funcionalidads más comunes a implementar,
