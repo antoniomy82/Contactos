@@ -1,4 +1,4 @@
-package com.ajmorales.contactos
+package com.ajmorales.contactos.activities
 
 import android.graphics.Matrix
 import android.os.Bundle
@@ -7,6 +7,8 @@ import android.view.ScaleGestureDetector
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.ajmorales.contactos.R
+
 /**
  *  Creado por Antonio J Morales "el colega informático" on 22/05/2020
  *  Si te interesa, puedes ver como se ha realizado esta App en mi Canal de Youtube: https://www.youtube.com/channel/UC2XTU132H9tHCnM_A3opCzQ
@@ -31,7 +33,7 @@ class DetalleFotoActivity : AppCompatActivity() {
         miToolbar!!.title = "Detalle foto"
         setSupportActionBar(miToolbar)
 
-        var miFoto = MainActivity.getImagen(intent.getIntExtra("miIndice2", 0))
+        val miFoto = MainActivity.getImagen(intent.getIntExtra("miIndice2", 0))
         imDetalleFoto = findViewById(R.id.imDetalleFoto)
         imDetalleFoto!!.setImageBitmap(miFoto)
         SGD = ScaleGestureDetector(this, ScaleListener())

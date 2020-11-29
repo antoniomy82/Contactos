@@ -1,4 +1,4 @@
-package com.ajmorales.contactos
+package com.ajmorales.contactos.util
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -37,7 +37,7 @@ open class GPSTracker : Service {
 
     val address = false //Geodecoder obtain an Address.
 
-    constructor() {}
+    constructor()
     constructor(context: Context?, activity: Activity?) {
         mContext = context
         this.activity = activity

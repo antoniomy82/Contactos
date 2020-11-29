@@ -1,4 +1,4 @@
-package com.ajmorales.contactos
+package com.ajmorales.contactos.activities
 
 import android.Manifest
 import android.app.Activity
@@ -22,6 +22,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.ajmorales.contactos.R
+import com.ajmorales.contactos.model.Contactos
+import com.ajmorales.contactos.util.GPSTracker
+import com.ajmorales.contactos.util.UserPicture
 import java.io.IOException
 import java.util.*
 
@@ -61,21 +65,26 @@ class ContactoNuevo : AppCompatActivity() {
     private val IMAGE_TYPE = "image/*"
     private val SELECT_SINGLE_PICTURE = 200
     private val REQUEST_IMAGE_CAPTURE = 100
-    private val TELEFONOS_LISTA: Array<String> = arrayOf("casa", "trabajo", "móvil", "móvil trabajo", "móvil 2", "casa 2", "otro")
+    private val TELEFONOS_LISTA: Array<String> =
+        arrayOf("casa", "trabajo", "móvil", "móvil trabajo", "móvil 2", "casa 2", "otro")
 
     private var selectedImagePreview: ImageView? = null
+
+    private var id: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contacto_nuevo)
         toolbar = findViewById(R.id.toolbar_contacto)
-        toolbar!!.title = "Crear contacto"
+        toolbar?.title = "Crear contacto"
         setSupportActionBar(toolbar)
 
         //Activo la flecha Home de vuelta a atrás
         val miBar = supportActionBar
-        miBar!!.setDisplayHomeAsUpEnabled(true)
+        miBar?.setDisplayHomeAsUpEnabled(true)
+
+        id = intent.getIntExtra("ID", 0).toString()
 
         val calendar = Calendar.getInstance() //Date picker
         year = calendar[Calendar.YEAR]
@@ -98,39 +107,41 @@ class ContactoNuevo : AppCompatActivity() {
         editable = intent.getBooleanExtra("Edicion", false)
 
         //Spinners
-        val spAdapter: ArrayAdapter<*> = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, TELEFONOS_LISTA)
+        val spAdapter: ArrayAdapter<*> =
+            ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, TELEFONOS_LISTA)
 
         spTelefono1 = findViewById<View>(R.id.sp_telefono1) as Spinner
         spTelefono2 = findViewById(R.id.sp_telefono2)
-        spTelefono1!!.adapter = spAdapter
-        spTelefono2!!.adapter = spAdapter
+        spTelefono1?.adapter = spAdapter
+        spTelefono2?.adapter = spAdapter
 
         if (editable) {
             indice = intent.getIntExtra("edIndice", 0)
-            toolbar!!.title = "Editar contacto"
+            toolbar?.title = "Editar contacto"
 
             //Cargamos el objeto
             contactoEditado = MainActivity.getContacto(intent.getIntExtra("edIndice", 0))
-            edFoto!!.setImageBitmap(contactoEditado!!.foto)
-            edNombre!!.setText(contactoEditado!!.nombre)
-            tvFechaNacimiento!!.text = contactoEditado!!.nacimiento
-            bNacimiento!!.text = "Cambiar"
-            edApellidos!!.setText(contactoEditado!!.apellidos)
-            edTelefono1!!.setText(contactoEditado!!.telefono1)
-            spTelefono1!!.setSelection(contactoEditado!!.spinnerTlf1)
-            edTelefono2!!.setText(contactoEditado!!.telefono2)
-            spTelefono2!!.setSelection(contactoEditado!!.spinnerTlf2)
-            edEmail!!.setText(contactoEditado!!.email)
-            edDireccion!!.setText(contactoEditado!!.direccion)
-            edWeb!!.setText(contactoEditado!!.web)
-            edSocial!!.setText(contactoEditado!!.social)
-            edNotas!!.setText(contactoEditado!!.notas)
+            this.id = contactoEditado?.id
+            edFoto?.setImageBitmap(contactoEditado?.foto)
+            edNombre?.setText(contactoEditado?.nombre)
+            tvFechaNacimiento?.text = contactoEditado?.nacimiento
+            bNacimiento?.text = "Cambiar"
+            edApellidos?.setText(contactoEditado?.apellidos)
+            edTelefono1?.setText(contactoEditado?.telefono1)
+            spTelefono1?.setSelection(contactoEditado?.spinnerTlf1 ?: 0)
+            edTelefono2?.setText(contactoEditado?.telefono2)
+            spTelefono2?.setSelection(contactoEditado?.spinnerTlf2 ?: 0)
+            edEmail?.setText(contactoEditado?.email)
+            edDireccion?.setText(contactoEditado?.direccion)
+            edWeb?.setText(contactoEditado?.web)
+            edSocial?.setText(contactoEditado?.social)
+            edNotas?.setText(contactoEditado?.notas)
         }
 
         if (selectedImagePreview != null) {
-            val drawable = selectedImagePreview!!.drawable as BitmapDrawable
+            val drawable = selectedImagePreview?.drawable as BitmapDrawable
             val bitmap = drawable.bitmap
-            edFoto!!.setImageBitmap(bitmap)
+            edFoto?.setImageBitmap(bitmap)
         }
         //Cuando clicamos en la foto
         findViewById<View>(R.id.ivFoto_Contacto_Nuevo).setOnClickListener {
@@ -178,7 +189,7 @@ class ContactoNuevo : AppCompatActivity() {
                 mes = arg2 + 1
                 mesA = mes.toString()
             }
-            tvFechaNacimiento!!.text = "$dia/$mes/$arg1"
+        tvFechaNacimiento?.text = "$dia/$mes/$arg1"
         }
 
 
@@ -217,15 +228,31 @@ class ContactoNuevo : AppCompatActivity() {
             val intent = Intent(applicationContext, MainActivity::class.java)
 
             if (editable) {
-                val actualizada = Contactos((edFoto!!.drawable as BitmapDrawable).bitmap, edNombre!!.text.toString(), edApellidos!!.text.toString(), tvFechaNacimiento!!.text.toString(),
-                    edTelefono1!!.text.toString(), spTelefono1!!.selectedItemPosition, edTelefono2!!.text.toString(), spTelefono2!!.selectedItemPosition, edEmail!!.text.toString(),
-                    edDireccion!!.text.toString(), edWeb!!.text.toString(), edSocial!!.text.toString(), edNotas!!.text.toString())
-
-                if(edNombre!!.text.toString()=="" ||edNombre!!.text.toString().isBlank()){
-                    dialogNombreVacio()
+                val actualizada = id?.let { it1 ->
+                    Contactos(
+                        it1,
+                        (edFoto?.drawable as BitmapDrawable).bitmap,
+                        edNombre?.text.toString(),
+                        edApellidos?.text.toString(),
+                        tvFechaNacimiento?.text.toString(),
+                        edTelefono1?.text.toString(),
+                        spTelefono1?.selectedItemPosition!!,
+                        edTelefono2?.text.toString(),
+                        spTelefono2?.selectedItemPosition!!,
+                        edEmail?.text.toString(),
+                        edDireccion?.text.toString(),
+                        edWeb?.text.toString(),
+                        edSocial?.text.toString(),
+                        edNotas?.text.toString()
+                    )
                 }
-                else{
-                    MainActivity.updateContacto(indice, actualizada)
+
+                if (edNombre!!.text.toString() == "" || edNombre!!.text.toString().isBlank()) {
+                    dialogNombreVacio()
+                } else {
+                    if (actualizada != null) {
+                        MainActivity.updateContacto(indice, actualizada)
+                    }
                     startActivity(intent)
                 }
 
@@ -235,19 +262,20 @@ class ContactoNuevo : AppCompatActivity() {
                 }
                 else {
                     MainActivity.setContacto(
-                        (edFoto!!.drawable as BitmapDrawable).bitmap,
-                        edNombre!!.text.toString(),
-                        edApellidos!!.text.toString(),
-                        tvFechaNacimiento!!.text.toString(),
-                        edTelefono1!!.text.toString(),
-                        spTelefono1!!.selectedItemPosition,
-                        edTelefono2!!.text.toString(),
-                        spTelefono2!!.selectedItemPosition,
-                        edEmail!!.text.toString(),
-                        edDireccion!!.text.toString(),
-                        edWeb!!.text.toString(),
-                        edSocial!!.text.toString(),
-                        edNotas!!.text.toString()
+                        id.toString(),
+                        (edFoto?.drawable as BitmapDrawable).bitmap,
+                        edNombre?.text.toString(),
+                        edApellidos?.text.toString(),
+                        tvFechaNacimiento?.text.toString(),
+                        edTelefono1?.text.toString(),
+                        spTelefono1?.selectedItemPosition!!,
+                        edTelefono2?.text.toString(),
+                        spTelefono2?.selectedItemPosition!!,
+                        edEmail?.text.toString(),
+                        edDireccion?.text.toString(),
+                        edWeb?.text.toString(),
+                        edSocial?.text.toString(),
+                        edNotas?.text.toString()
                     )
                     startActivity(intent)
                 }
@@ -297,7 +325,7 @@ class ContactoNuevo : AppCompatActivity() {
     }
 
     //Alert dialog
-    fun tomarFotoDialog() {
+    private fun tomarFotoDialog() {
         val dialog =
             AlertDialog.Builder(this@ContactoNuevo)
         val items = arrayOfNulls<CharSequence>(2)
@@ -331,15 +359,24 @@ class ContactoNuevo : AppCompatActivity() {
     /**
      * Dialog to Enable GPS
      */
-    fun gps() {
+    private fun gps() {
         val address: String //Use to paint GeoLocation in edText or Toast
         val gps = GPSTracker(applicationContext, this@ContactoNuevo)
 
         //Check GPS Permissions
-        if (ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                applicationContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                applicationContext, Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
 
-            ActivityCompat.requestPermissions(this@ContactoNuevo, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+            ActivityCompat.requestPermissions(
+                this@ContactoNuevo,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1
+            )
 
         } else { //Tengo permisos
                 if (gps.canGetLocation()) { //I have GPS enable
@@ -349,7 +386,7 @@ class ContactoNuevo : AppCompatActivity() {
                     // \n is for new line
                     Toast.makeText(applicationContext, "Ubicación - \nLat: $latitude\nLong: $longitude", Toast.LENGTH_LONG).show()
                     address = gps.getLocationAddress(latitude, longitude)
-                    edDireccion!!.setText(address)
+                    edDireccion?.setText(address)
 
                 } else { dialogNoGPS() }//GPS deshabilitado o no tengo GPS
             }
@@ -374,7 +411,7 @@ class ContactoNuevo : AppCompatActivity() {
     }
 
     //Nombre vacío
-    fun dialogNombreVacio() {
+    private fun dialogNombreVacio() {
         val dialog = AlertDialog.Builder(this)
         dialog.setCancelable(false)
         dialog.setTitle("NOMBRE VACÍO")

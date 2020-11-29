@@ -1,4 +1,4 @@
-package com.ajmorales.contactos
+package com.ajmorales.contactos.model
 
 import android.graphics.Bitmap
 
@@ -8,9 +8,25 @@ import android.graphics.Bitmap
  *  Puedes descargar el código de mi Github : https://github.com/antoniomy82
  */
 
-class Contactos (foto: Bitmap, nombre: String, apellidos: String, nacimiento: String, telefono1: String, spinner_tlf1: Int, telefono2: String,spinner_tlf2: Int,
-                 email: String, direccion: String, web: String, social: String, notas: String) {
+class Contactos(
+    id: String,
+    foto: Bitmap,
+    nombre: String,
+    apellidos: String,
+    nacimiento: String,
+    telefono1: String,
+    spinner_tlf1: Int,
+    telefono2: String,
+    spinner_tlf2: Int,
+    email: String,
+    direccion: String,
+    web: String,
+    social: String,
+    notas: String
+) {
 
+    //ID
+    var id: String = id
     var foto: Bitmap? = null
     var nombre: String = ""
     var apellidos: String = ""
@@ -26,7 +42,8 @@ class Contactos (foto: Bitmap, nombre: String, apellidos: String, nacimiento: St
     var notas: String = ""
 
     init {
-        this.foto  = foto
+        this.id = id
+        this.foto = foto
         this.nombre = nombre
         this.apellidos = apellidos
         this.nacimiento  = nacimiento

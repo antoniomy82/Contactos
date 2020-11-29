@@ -1,4 +1,4 @@
-package com.ajmorales.contactos
+package com.ajmorales.contactos.util
 
 import android.content.Context
 import android.location.Address

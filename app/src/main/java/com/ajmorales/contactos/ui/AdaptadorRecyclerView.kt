@@ -1,4 +1,4 @@
-package com.ajmorales.contactos
+package com.ajmorales.contactos.ui
 
 import android.content.Context
 import android.content.Intent
@@ -12,6 +12,10 @@ import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.ajmorales.contactos.R
+import com.ajmorales.contactos.activities.ContactoDetalle
+import com.ajmorales.contactos.activities.MainActivity
+import com.ajmorales.contactos.model.Contactos
 import java.util.*
 
 /**
@@ -54,32 +58,36 @@ class AdaptadorRecyclerView(var context: Context, listaItems: ArrayList<Contacto
 
     //Asignamos los datos a cada elemento de la lista
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val contactos = listaCopia!!.get(position) // Cargamos los elementos
+        val contactos = listaCopia?.get(position) // Cargamos los elementos
         val miViewHolder = holder as ViewHolder?
-        miViewHolder!!.ivFoto.setImageBitmap(contactos.foto)
+        miViewHolder?.ivFoto?.setImageBitmap(contactos?.foto)
 
         //Comprobamos si la vista es grid o lista
         if (tipoVista == "lista") {
-            miViewHolder.tvItemNombre.setText(contactos.nombre.toString() + " " + contactos.apellidos)
-            miViewHolder.tvItemInicial.setText(contactos.nombre[0].toString()) //obtenemos la inicial
+            miViewHolder?.tvItemNombre?.text =
+                contactos?.nombre.toString() + " " + contactos?.apellidos
+            miViewHolder?.tvItemInicial?.text =
+                contactos!!.nombre[0].toString() //obtenemos la inicial
 
         } else {
-            miViewHolder.tvItemNombre.setText(contactos.nombre)
-            miViewHolder.tvItemInicial.setText(contactos.nombre[0].toString()) //obtenemos la inicial
+            miViewHolder?.tvItemNombre?.text = contactos?.nombre
+            miViewHolder?.tvItemInicial?.text =
+                contactos!!.nombre[0].toString() //obtenemos la inicial
 
             //Pongo las celdas pares de otro color
             if (position % 2 == 0) {
-                miViewHolder.itemView.setBackgroundColor(Color.parseColor("#eeeeee")) //android:background="#FFFFFF"
+                miViewHolder?.itemView?.setBackgroundColor(Color.parseColor("#eeeeee")) //android:background="#FFFFFF"
             } else {
-                miViewHolder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF")) //"#e6e2d3"
+                miViewHolder?.itemView?.setBackgroundColor(Color.parseColor("#FFFFFF")) //"#e6e2d3"
             }
         }
         println("Bind View Holder: $position")
 
 
         //Listener cuando clicamos en un item.
-        miViewHolder.itemView.setOnClickListener {
-            val intent = Intent(context, ContactoDetalle::class.java) //Activity inicio, activity destino
+        miViewHolder?.itemView?.setOnClickListener {
+            val intent =
+                Intent(context, ContactoDetalle::class.java) //Activity inicio, activity destino
             intent.putExtra("miIndice", position) //Envío la posición dentro de lista
             context.startActivity(intent)
         }
@@ -87,21 +95,15 @@ class AdaptadorRecyclerView(var context: Context, listaItems: ArrayList<Contacto
     }
 
     override fun getItemCount(): Int {
-        return listaCopia!!.size!!
+        return listaCopia?.size!!
     }
 
 
     //Definimos nuestro holder, en base a los campos que tenemos en nuestros "item"
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var ivFoto: ImageView
-        var tvItemNombre: TextView
-        var tvItemInicial : TextView//ListView
-
-        init {
-            ivFoto = itemView.findViewById<View>(R.id.ivFoto_contacto) as ImageView
-            tvItemNombre = itemView.findViewById(R.id.tvItemNombre)
-            tvItemInicial = itemView.findViewById(R.id.tvInicial) //ListView
-        }
+        var ivFoto: ImageView = itemView.findViewById<View>(R.id.ivFoto_contacto) as ImageView
+        var tvItemNombre: TextView = itemView.findViewById(R.id.tvItemNombre)
+        var tvItemInicial: TextView = itemView.findViewById(R.id.tvInicial)
     }
 
     //Barra de búsqueda

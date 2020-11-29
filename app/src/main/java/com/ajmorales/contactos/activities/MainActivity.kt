@@ -1,26 +1,37 @@
-package com.ajmorales.contactos
+package com.ajmorales.contactos.activities
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.SearchView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ajmorales.contactos.R
+import com.ajmorales.contactos.model.ContactoCRUD
+import com.ajmorales.contactos.model.Contactos
+import com.ajmorales.contactos.ui.AdaptadorRecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
-
+import kotlin.collections.ArrayList
 
 /**
- *  Creado por Antonio J Morales "el colega informático" on 22/05/2020
+ *  Creado por Antonio J Morales on 22/05/2020
  *  Si te interesa, puedes ver como se ha realizado esta App en mi Canal de Youtube: https://www.youtube.com/channel/UC2XTU132H9tHCnM_A3opCzQ
  *  Puedes descargar el código de mi Github : https://github.com/antoniomy82
  */
@@ -31,55 +42,106 @@ class MainActivity : AppCompatActivity() {
     private var adapter: AdaptadorRecyclerView? = null
     private var manager: RecyclerView.LayoutManager? = null
     private var switchOn = false //Lo usamos para saber como se encuentra el Switch
-    private var tipoVista : String? = null//Usamos como flag para saber si es grid o list
+    private var tipoVista: String? = null//Usamos como flag para saber si es grid o list
+    private var crud: ContactoCRUD? = null
+    private var newId: Int? = 0
+    private var loadDB: Boolean = false
+
 
     companion object {
-        private var listaContactos: ArrayList<Contactos>? = null
-        private var listaAuxiliar: ArrayList<Contactos>? = null
+        private var listaContactos = ArrayList<Contactos>()
+        private var listaAuxiliar = ArrayList<Contactos>()
         private var esBusqueda = false //Flag para saber si hemos realizado una búsqueda
         var progressBar: ProgressBar? = null
+        var mCRUD: ContactoCRUD? = null
+        var tvLoad: TextView? = null
+
+        fun setCRUD(crud: ContactoCRUD) {
+            this.mCRUD = crud
+        }
 
         fun getContacto(indice: Int): Contactos {
-            return listaContactos!![indice]
+            return listaContactos[indice]
         }
 
         fun getImagen(indice: Int): Bitmap {
-            return listaContactos!![indice].foto!!
+            return listaContactos[indice].foto!!
         }
 
-        fun setContacto(foto: Bitmap?, nombre: String?, apellidos: String?, nacimiento: String?, telefono1: String?, spinner_tlf1: Int, telefono2: String?, spinner_tlf2: Int, email: String?, direccion: String?, web: String?, social: String?, notas: String?) {
-            listaContactos!!.add(Contactos(foto!!, nombre!!, apellidos!!, nacimiento!!, telefono1!!, spinner_tlf1, telefono2!!, spinner_tlf2, email!!, direccion!!, web!!, social!!, notas!!))
-            listaContactos = listaAuxiliar //Lista para borrados y actualizaciones, que no recarguemos la inicial
+        fun setContacto(
+            id: String,
+            foto: Bitmap,
+            nombre: String,
+            apellidos: String,
+            nacimiento: String,
+            telefono1: String,
+            spinner_tlf1: Int,
+            telefono2: String,
+            spinner_tlf2: Int,
+            email: String,
+            direccion: String,
+            web: String,
+            social: String,
+            notas: String
+        ) {
+            val item = Contactos(
+                id,
+                foto,
+                nombre,
+                apellidos,
+                nacimiento,
+                telefono1,
+                spinner_tlf1,
+                telefono2,
+                spinner_tlf2,
+                email,
+                direccion,
+                web,
+                social,
+                notas
+            )
+            mCRUD?.newContacto(item)
+
         }
 
-        fun delContacto(posicion: Int) {
+        fun delContacto(posicion: Int, contacto: Contactos) {
             listaAuxiliar = listaContactos
-            listaAuxiliar!!.removeAt(posicion)
-            listaContactos = listaAuxiliar //Lista para borrados y actualizaciones, que no recarguemos la inicial
+            listaAuxiliar.removeAt(posicion)
+            mCRUD?.deleteContacto(contacto)
+            listaContactos =
+                listaAuxiliar //Lista para borrados y actualizaciones, que no recarguemos la inicial
         }
 
         fun updateContacto(posicion: Int, nueva: Contactos) {
-            listaContactos!![posicion] = nueva
-            listaAuxiliar = listaContactos //Lista para borrados y actualizaciones, que no recarguemos la inicial
+            mCRUD?.updateContacto(nueva)
+            listaContactos[posicion] = nueva
+            listaAuxiliar = listaContactos
+
         }
 
         fun setEsBusqueda(listaFull: ArrayList<Contactos>?) {
             esBusqueda = true
-            listaAuxiliar = listaFull
+            if (listaFull != null) {
+                listaAuxiliar = listaFull
+            }
         }
 
         fun stopProgressBar() {
-            progressBar!!.visibility = View.GONE
+            progressBar?.visibility = View.GONE
+            tvLoad?.visibility = View.GONE
+
         }
 
-        fun getListaAuxiliar(): ArrayList<Contactos>? {
+        fun getListaAuxiliar(): ArrayList<Contactos> {
             return listaAuxiliar
         }
 
         //Ordenamos la lista de contactos por nombre
         fun ordenarListaContactos(lista: ArrayList<Contactos>?) {
-            lista!!.sortWith(Comparator { c1, c2 -> c1.nombre.compareTo(c2.nombre) })
-            listaContactos = lista
+            lista?.sortWith(Comparator { c1, c2 -> c1.nombre.compareTo(c2.nombre) })
+            if (lista != null) {
+                listaContactos = lista
+            }
         }
     }
 
@@ -87,6 +149,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         progressBar = findViewById<View>(R.id.circularProgress) as ProgressBar
+        tvLoad = findViewById(R.id.tvLoading)
 
         var toolbar: Toolbar? = null
         toolbar = findViewById(R.id.toolbar_main)
@@ -96,16 +159,63 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         val fbNuevo = findViewById<FloatingActionButton>(R.id.fbnuevo)
 
-        setUpRecyclerView() //Cargamos datos
+        crud = ContactoCRUD(this)
+        setCRUD(crud!!)
+
+        listaContactos = ArrayList<Contactos>()
+        listaAuxiliar = ArrayList<Contactos>()
+
+        if (!loadDB) {
+            listaContactos = crud?.getContactos() ?: ArrayList()
+            Log.i("load DB", "....#")
+        }
+
+        //Carga BD por defecto
+        if (listaContactos.size == 0) {
+            cargarListaContactos()
+
+            val runnable = Runnable {
+                listaContactos = crud!!.getContactos()
+                setUpRecyclerView() //Cargamos datos
+            }
+            val handler = Handler(Looper.getMainLooper())
+            handler.postDelayed(runnable, 15000)
+        } else {
+            setUpRecyclerView() //Cargamos datos
+        }
+
+        // setUpRecyclerView()  // Si no quiere cargar BD por defecto
 
         //Floating button nuevo
         fbNuevo.setOnClickListener {
-            listaContactos = listaAuxiliar //Lista para borrados y actualizaciones, que no recarguemos la inicial
-            val intent = Intent(applicationContext, ContactoNuevo::class.java) //Activity inicio, activity destino
+            listaContactos =
+                listaAuxiliar //Lista para borrados y actualizaciones, que no recarguemos la inicial
+            Log.i("@@ ID_VALUE", newId.toString())
+            this.newId = listaContactos.size
+            val intent = Intent(
+                applicationContext,
+                ContactoNuevo::class.java
+            ) //Activity inicio, activity destino
+            intent.putExtra("ID", newId ?: 0) //Envío la posición dentro de lista
             startActivity(intent)
         }
 
-        progressBar!!.visibility = View.VISIBLE
+        progressBar?.visibility = View.VISIBLE
+        tvLoad?.visibility = View.VISIBLE
+    }
+
+    //Cuando cambiamos de Portrait a Landscape guardamos los datos
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Log.d("OnConfigurationChanged", "NO IF....@")
+
+            loadDB = true
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            loadDB = true
+        }
+
     }
 
     private fun setUpRecyclerView() {
@@ -119,22 +229,28 @@ class MainActivity : AppCompatActivity() {
             tipoVista = "grid"
         }
 
-        //Utilizamos 2 ArrayList para no machacar los CRUD realizados
-        if (listaContactos == null) { //Caso inicial
-            listaContactos = ArrayList<Contactos>() //Inicializo el ArrayList
-            listaAuxiliar = ArrayList<Contactos>()
-            cargarListaContactos()
+        if (listaContactos.size > 0) {
             listaAuxiliar = listaContactos
-        } else if (esBusqueda) { //Caso busquedas
+        }
+
+        if (esBusqueda) { //Caso busquedas
             listaContactos = getListaAuxiliar()
             esBusqueda = false
         }
+
+
+        Log.i("setupRecyclerView", "onCreate")
         ordenarListaContactos(listaContactos)
-        recyclerView = findViewById(R.id.rvListItems) //Aquí definimos dónde tenemos la vista del recyclerView XML
-        recyclerView!!.setHasFixedSize(true) //con tamaño fijo, para que tarde menos el renderizado.
-        recyclerView!!.layoutManager = manager
-        adapter = AdaptadorRecyclerView(this, listaContactos!!, tipoVista!!) //lista linearLayout o grid para grid Layout
-        recyclerView!!.adapter = adapter
+        recyclerView =
+            findViewById(R.id.rvListItems) //Aquí definimos dónde tenemos la vista del recyclerView XML
+        recyclerView?.setHasFixedSize(true) //con tamaño fijo, para que tarde menos el renderizado.
+        recyclerView?.layoutManager = manager
+        adapter = AdaptadorRecyclerView(
+            this,
+            listaContactos,
+            tipoVista!!
+        ) //lista linearLayout o grid para grid Layout
+        recyclerView?.adapter = adapter
     }
 
     //Creamos el menú de opciones
@@ -169,7 +285,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                adapter!!.filter.filter(newText)
+                adapter?.filter?.filter(newText)
                 return false
             }
         })
@@ -185,14 +301,16 @@ class MainActivity : AppCompatActivity() {
     //Actualizo recicleView despues de un añadido , un borrado o busqueda
     override fun onResume() {
         super.onResume()
-        //progressBar.setVisibility(View.VISIBLE);
-        adapter!!.notifyDataSetChanged()
+        progressBar?.visibility = View.VISIBLE
+        adapter?.notifyDataSetChanged()
     }
 
+
     private fun cargarListaContactos() {
-        val listaCarga: ArrayList<Contactos> = ArrayList<Contactos>()
+        val listaCarga = ArrayList<Contactos>()
         listaCarga.add(
             Contactos(
+                "0",
                 BitmapFactory.decodeResource(resources, R.drawable.foto01),
                 "Luis",
                 "Martin Perez",
@@ -210,6 +328,7 @@ class MainActivity : AppCompatActivity() {
         )
         listaCarga.add(
             Contactos(
+                "1",
                 BitmapFactory.decodeResource(resources, R.drawable.foto06),
                 "Maria",
                 "Lopez Hoyos",
@@ -227,6 +346,7 @@ class MainActivity : AppCompatActivity() {
         )
         listaCarga.add(
             Contactos(
+                "2",
                 BitmapFactory.decodeResource(resources, R.drawable.foto02),
                 "Chan",
                 "Zhen Ramón",
@@ -244,6 +364,7 @@ class MainActivity : AppCompatActivity() {
         )
         listaCarga.add(
             Contactos(
+                "3",
                 BitmapFactory.decodeResource(resources, R.drawable.foto07),
                 "Carmen",
                 "Rodriguez Saez",
@@ -261,6 +382,7 @@ class MainActivity : AppCompatActivity() {
         )
         listaCarga.add(
             Contactos(
+                "4",
                 BitmapFactory.decodeResource(resources, R.drawable.foto03),
                 "Ismail",
                 "Morun Cachi",
@@ -278,6 +400,7 @@ class MainActivity : AppCompatActivity() {
         )
         listaCarga.add(
             Contactos(
+                "5",
                 BitmapFactory.decodeResource(resources, R.drawable.foto08),
                 "Carla",
                 "Sanz Saez",
@@ -295,6 +418,7 @@ class MainActivity : AppCompatActivity() {
         )
         listaCarga.add(
             Contactos(
+                "6",
                 BitmapFactory.decodeResource(resources, R.drawable.foto04),
                 "Marcos",
                 "Bonilla Cruz",
@@ -312,6 +436,7 @@ class MainActivity : AppCompatActivity() {
         )
         listaCarga.add(
             Contactos(
+                "7",
                 BitmapFactory.decodeResource(resources, R.drawable.foto09),
                 "Sandra",
                 "Cruz Castillo",
@@ -327,24 +452,15 @@ class MainActivity : AppCompatActivity() {
                 "Mindfulness"
             )
         )
-        listaCarga.add(
-            Contactos(
-                BitmapFactory.decodeResource(resources, R.drawable.foto05),
-                "Antonio J",
-                "Morales Yáñez",
-                "11/01/1982",
-                "65997972",
-                1,
-                "",
-                4,
-                "elcolegainformatico_82@gmail.com",
-                "Ctra Canillas 220, Madrid",
-                "",
-                "https://www.youtube.com/channel/UC2XTU132H9tHCnM_A3opCzQ",
-                "Yo mismo"
-            )
-        )
 
-        listaContactos = listaCarga
+        val insertDBscope = CoroutineScope(Dispatchers.IO)
+        insertDBscope.launch {
+
+            for (i in 0..7) {
+                crud?.newContacto(listaCarga[i])
+            }
+        }
     }
+
+
 }

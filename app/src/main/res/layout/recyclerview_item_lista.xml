@@ -30,8 +30,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivFoto_contacto"
-            android:layout_width="59dp"
-            android:layout_height="55dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_margin="10dp"
             android:contentDescription="@string/ivFoto"
             android:textAlignment="textEnd"

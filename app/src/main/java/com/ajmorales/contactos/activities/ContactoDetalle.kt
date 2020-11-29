@@ -1,4 +1,4 @@
-package com.ajmorales.contactos
+package com.ajmorales.contactos.activities
 
 import android.app.AlertDialog
 import android.content.ContentUris
@@ -15,6 +15,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.ajmorales.contactos.R
+import com.ajmorales.contactos.model.Contactos
+import com.ajmorales.contactos.util.GeoPosicion
 import java.util.*
 
 /**
@@ -103,17 +106,21 @@ class ContactoDetalle : AppCompatActivity() {
         tvSocial!!.text = misContactos!!.social
         tvNotas!!.text = misContactos!!.notas
 
+        Log.d("ID ", misContactos?.id + " Nombre: " + misContactos?.nombre)
         calculoCargaEdad()
         cargaClickListenerOncreate()
     }
 
 
     //Todos los setOnClickListener de OnCreate
-    fun cargaClickListenerOncreate() {
+    private fun cargaClickListenerOncreate() {
 
         //Ampliar la imagen al hacer click
         findViewById<View>(R.id.ivFoto_contacto).setOnClickListener {
-            val intent = Intent(applicationContext, DetalleFotoActivity::class.java) //Activity inicio, activity destino
+            val intent = Intent(
+                applicationContext,
+                DetalleFotoActivity::class.java
+            ) //Activity inicio, activity destino
             intent.putExtra("miIndice2", posicion)
             startActivity(intent)
         }
@@ -210,13 +217,14 @@ class ContactoDetalle : AppCompatActivity() {
     }
 
     //Alert dialog borrar
-    fun alertaBorrar() {
+    private fun alertaBorrar() {
         val dialog = AlertDialog.Builder(this@ContactoDetalle)
         dialog.setCancelable(false)
         dialog.setTitle("Atención")
         dialog.setMessage("¿Está seguro que desea borrar este contacto?")
         dialog.setPositiveButton("Aceptar") { dialog, id ->
-            MainActivity.delContacto(posicion)
+            misContactos?.let { MainActivity.delContacto(posicion, it) }
+
             finish()
         }
         dialog.setNegativeButton("Cancelar") { dialog, which -> }
@@ -225,12 +233,14 @@ class ContactoDetalle : AppCompatActivity() {
     }
 
     //Alert dialog seleccionar línea a llamar
-    fun llamadaDialog() {
+    private fun llamadaDialog() {
         val dialog = AlertDialog.Builder(this@ContactoDetalle)
         val items = arrayOfNulls<CharSequence>(2)
 
-        items[0] = "Llamar a " + TELEFONOS_LISTA[misContactos!!.spinnerTlf1] + ": " + misContactos!!.telefono1
-        items[1] = "Llamar a " + TELEFONOS_LISTA[misContactos!!.spinnerTlf2] + ": " + misContactos!!.telefono2
+        items[0] =
+            "Llamar a " + TELEFONOS_LISTA[misContactos!!.spinnerTlf1] + ": " + misContactos!!.telefono1
+        items[1] =
+            "Llamar a " + TELEFONOS_LISTA[misContactos!!.spinnerTlf2] + ": " + misContactos!!.telefono2
 
         dialog.setTitle("Seleccione línea de teléfono")
         dialog.setItems(items) { dialog, which ->
@@ -265,10 +275,24 @@ class ContactoDetalle : AppCompatActivity() {
         alert.show()
     }
 
-    fun calculoCargaEdad() {
-        diaN = Integer.valueOf(java.lang.String.valueOf(misContactos!!.nacimiento[0] - '0') + java.lang.String.valueOf(misContactos!!.nacimiento[1] - '0'))
-        mesN = Integer.valueOf(java.lang.String.valueOf(misContactos!!.nacimiento[3] - '0') + java.lang.String.valueOf(misContactos!!.nacimiento[4] - '0'))
-        anioN = Integer.valueOf(java.lang.String.valueOf(misContactos!!.nacimiento[6] - '0') + java.lang.String.valueOf(misContactos!!.nacimiento[7] - '0') + java.lang.String.valueOf(misContactos!!.nacimiento[8] - '0') + java.lang.String.valueOf(misContactos!!.nacimiento[9] - '0'))
+    private fun calculoCargaEdad() {
+        diaN = Integer.valueOf(
+            java.lang.String.valueOf(misContactos!!.nacimiento[0] - '0') + java.lang.String.valueOf(
+                misContactos!!.nacimiento[1] - '0'
+            )
+        )
+        mesN = Integer.valueOf(
+            java.lang.String.valueOf(misContactos!!.nacimiento[3] - '0') + java.lang.String.valueOf(
+                misContactos!!.nacimiento[4] - '0'
+            )
+        )
+        anioN = Integer.valueOf(
+            java.lang.String.valueOf(misContactos!!.nacimiento[6] - '0') + java.lang.String.valueOf(
+                misContactos!!.nacimiento[7] - '0'
+            ) + java.lang.String.valueOf(misContactos!!.nacimiento[8] - '0') + java.lang.String.valueOf(
+                misContactos!!.nacimiento[9] - '0'
+            )
+        )
 
         val miCumple = Calendar.getInstance()
         val hoy = Calendar.getInstance()
@@ -284,7 +308,7 @@ class ContactoDetalle : AppCompatActivity() {
     }
 
     //Alert dialog seleccionar línea a llamar
-    fun gpsDialog() {
+    private fun gpsDialog() {
         val dialog = AlertDialog.Builder(this@ContactoDetalle)
         val items = arrayOfNulls<CharSequence>(2)
         items[0] = "Explorar la dirección"
@@ -294,7 +318,10 @@ class ContactoDetalle : AppCompatActivity() {
             if (which == 0) {
                 if (TEST_VACIO != misContactos?.direccion) {
                     val miPosicion = GeoPosicion()
-                    val miGeoPosicion: String? = miPosicion.getLocationFromAddress(misContactos?.direccion, applicationContext)
+                    val miGeoPosicion: String? = miPosicion.getLocationFromAddress(
+                        misContactos?.direccion,
+                        applicationContext
+                    )
                     Log.d("GEO: ", miGeoPosicion)
 
                     val intentUri = Uri.parse("geo:$miGeoPosicion")
@@ -308,8 +335,9 @@ class ContactoDetalle : AppCompatActivity() {
                 if (TEST_VACIO != misContactos?.direccion) {
                     val direccion = "Ubicación de " + misContactos?.nombre
                     val miPosicion = GeoPosicion()
-                    val miGeoPosicion: String? = miPosicion.getLocationFromAddress(misContactos?.nombre, applicationContext)
-                    Log.d("GEO: ", miGeoPosicion)
+                    val miGeoPosicion: String? =
+                        miPosicion.getLocationFromAddress(misContactos?.nombre, applicationContext)
+                    val d = Log.d("GEO: ", miGeoPosicion)
 
                     val intentUri = Uri.parse("geo:$miGeoPosicion?z=16&q=$miGeoPosicion(<$direccion>)")
                     val intent = Intent(Intent.ACTION_VIEW, intentUri)

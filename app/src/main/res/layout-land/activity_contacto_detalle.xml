@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ContactoDetalle">
+    tools:context=".activities.ContactoDetalle">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_contacto"
@@ -273,7 +273,6 @@
                     android:id="@+id/tvDireccion"
                     android:layout_width="292dp"
                     android:layout_height="20dp"
-                    android:layout_marginBottom="4dp"
                     android:layout_marginStart="10dp"
                     android:gravity="center_horizontal"
                     android:text="@string/edDireccion"
