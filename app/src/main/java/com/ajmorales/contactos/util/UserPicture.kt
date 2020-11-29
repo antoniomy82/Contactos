@@ -25,18 +25,18 @@ import java.io.InvalidObjectException
 class UserPicture(var uri: Uri, var resolver: ContentResolver) {
     private var path: String? = null
     var orientation: Matrix? = null
-    var storedHeight =2960
-    var storedWidth = 1440
+    var storedHeight = 1024
+    var storedWidth = 768
 
     companion object {
-        var MAX_WIDTH = 2960
-        var MAX_HEIGHT =1440
+        var MAX_WIDTH = 768
+        var MAX_HEIGHT = 1024
     }
 
     @get:Throws(IOException::class)
     private val information: Boolean
         private get() {
-                     if (informationFromMediaDatabase) return true
+            if (informationFromMediaDatabase) return true
                         return informationFromFileSystem
                     }
 
